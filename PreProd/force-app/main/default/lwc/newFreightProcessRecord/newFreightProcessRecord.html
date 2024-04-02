@@ -1,0 +1,225 @@
+<template>
+    <lightning-card title="">
+        <div class="component-header-container">
+            <lightning-layout
+                class="">
+        
+                <span style="font-weight: bold" 
+                        class="slds-align--absolute-center">
+                        New Freight Accounts Unit
+                </span>
+        
+            </lightning-layout>
+        </div>
+        <template if:true={isData}>
+        <div>
+            <table class="" cellspacing="0">
+            
+                <tbody>
+                    <tr>
+                        <td>
+                            Unit Name
+                        </td>
+                        <td class="slds-p-right--medium">
+                            <lightning-input type="text"
+                                            name="" 
+                                            label="" 
+                                            disabled value={freightRecord.unitName}
+                                            style="font-weight:bold">
+                            </lightning-input>
+                        </td>
+                        <td>
+                            Associated Opportunity
+                        </td>
+                        <td>
+                            <c-customlwclookup object-name="Opportunity" 
+                                               field-name="Name"
+									           placeholder="Search Opportunity" 
+                                               value={freightRecord.opportunityValue} 
+                                               other-filter-field="RecordType.Name"
+														filter-values="Broker Sell"
+														filter-value="Inventory Sell"
+                                                other-filter-fields="Product__c"
+                                                o-t-h-ffilter-value ={freightRecord.Id} 
+                                               icon-name="standard:opportunity"
+									           onvalueselected={handleOppSelect} class="">
+								</c-customlwclookup>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>
+                            Current address
+                        </td>
+                         <td class="slds-p-right--medium">
+                            <lightning-input-address name='txtBillingAddress1'
+                                                    address-label=""
+                                                    street-label="Street"
+                                                    city-label="City"
+                                                    province-label="State"
+                                                    country-label="Country"
+                                                    postal-code-label="Zip Code"
+                                                    street ={freightRecord.storageStreet}
+                                                    province ={freightRecord.storageState}
+                                                    city ={freightRecord.storageCity}
+                                                    country ={freightRecord.storageCountry}
+                                                    postal-code ={freightRecord.storageZipCode}
+                                                    disabled>
+                            </lightning-input-address>
+                        </td>
+                        
+                
+                        <td>
+                            Destination address
+                        </td>
+                        <td>
+                            <lightning-input-address
+                                                name='txtBillingAddress'
+                                                address-label=""
+                                                street-label="Street"
+                                                city-label="City"
+                                                province-label="State"
+                                                country-label="Country"
+                                                postal-code-label="Zip Code"
+                                                required
+                                                    street ={freightRecord.destinationStreet}
+                                                    province ={freightRecord.destinationState}
+                                                    city ={freightRecord.destinationCity}
+                                                    country = {freightRecord.destinationCountry}
+                                                    postal-code ={freightRecord.destinationZipCode}
+                                                onchange={genericInputChange}>
+                            </lightning-input-address>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Current location site contact
+                        </td>
+                        <td class="slds-p-right--medium">
+                            <lightning-input type="text" 
+                                             name="" 
+                                             label=""
+                                             disabled value={freightRecord.currentSiteContact} 
+                                             style="font-weight:bold">
+                            </lightning-input>
+                        </td>
+                        <td>
+                            Destination location site contact
+                        </td>
+                        <td>
+                            <c-customlwclookup object-name="Contact" 
+                                               field-name="Name"
+									           placeholder="Search Contact" 
+                                               value={freightRecord.destinationSiteContact} 
+                                               icon-name="standard:contact"
+									           onvalueselected={handleDestinationContactSelect} 
+                                               class="">
+								</c-customlwclookup>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Going to Port
+                        </td>
+                        <td class="slds-p-right--medium">
+                            <lightning-input type="checkbox" 
+                                             disabled 
+                                             checked={freightRecord.goingToPort} >
+                            </lightning-input>
+                        </td>
+                        <td>
+                            Freight Budget
+                        </td>
+                        <td>
+                            <lightning-input type="number" 
+                                             name="" 
+                                             label="" 
+                                             disabled value={freightRecord.freightBudget}
+                                             style="font-weight:bold">
+                            </lightning-input>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        
+                        <td>
+                            Freight Ready to Move
+                        </td>
+                        <td>
+                            <lightning-input type="checkbox" 
+                                             disabled checked={freightRecord.freightReadyToMove} >
+                            
+                            </lightning-input>
+                        </td>
+                        
+                        <td>
+                            Freight Requestor
+                        </td>
+                        <td>
+                            <lightning-input type="text" 
+                                             name="" 
+                                             label="" 
+                                             disabled value={freightRecord.freightRequestor}
+                                             style="font-weight:bold">
+                            </lightning-input>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        
+                        <td>
+                            Ramps available at Pick-Up site
+                        </td>
+                        <td>
+                            <lightning-input type="checkbox" 
+                                             checked={freightRecord.RampsAvailableAtPickUpSite} 
+                                             onchange={handleRampsAvailableAtPickUpSite}>
+                                            
+                            </lightning-input>
+                        </td>
+                        
+                        <td>
+                            Ramps available at Drop-Off site
+                        </td>
+                        <td>
+                            <lightning-input type="checkbox" 
+                                             checked={freightRecord.RampsAvailableAtDropOffSite} 
+                                             onchange={handleRampsAvailableAtDropOffSite}>
+                            
+                            </lightning-input>
+                        </td>
+                    </tr>
+                    <tr>
+                       
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+        </template>
+        <template if:false={isData}>
+            No Data Found(s).
+        </template>
+
+
+        <div slot="footer">
+            <lightning-button variant="brand" 
+                              label="CANCEL" 
+                              onclick={cancleEdit}
+                              class="slds-m-left_x-small slds-text-align_right">
+            </lightning-button>
+        
+        
+            <lightning-button variant="destructive" 
+                              label="NEXT" 
+                              onclick={handleNextClick}
+                              disabled={isNextDisabled}
+                              class="slds-m-left_x-small slds-text-align_right">
+            </lightning-button>
+        
+        </div>
+
+
+    </lightning-card>  
+</template>

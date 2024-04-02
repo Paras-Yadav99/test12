@@ -1,0 +1,43 @@
+<apex:component controller="thisIronDemandUnitContacts" access="global">
+<apex:attribute name="ContactId" description="This is the Account Id." type="Id" assignTo="{!thisContactId}"/>
+
+ see the new machine<apex:outputText rendered="{!thisContactZids.size > 1}" value="s"/> below and let me know if you have any questions.<br /><br />
+
+<ol>
+    <apex:repeat value="{!thisContactZids}" var="zid">
+<li>{!zid.Year__c} {!zid.Manufacturer__c} {!zid.Model__c} ({!zid.ProductCode}) &nbsp;       
+<strong>{!zid.Display_Price__c}</strong> <apex:outputPanel rendered="{!zid.Unit_Stage__c == 'Unadvertized'}">&nbsp;[UNADVERTISED]</apex:outputPanel><br />
+<apex:outputPanel rendered="{!NOT(ISBLANK(zid.Displayed_Vague_Location__c))}">
+          <apex:outputField value="{!zid.Displayed_Vague_Location__c}"/><br />
+         </apex:outputPanel>         
+         
+
+<apex:outputPanel rendered="{!NOT(ISBLANK(zid.Hour__c))}">
+-          {!zid.Hour__c} Hours<br/>
+         </apex:outputPanel>
+         
+         <apex:outputPanel rendered="{!NOT(ISBLANK(zid.Mileage__c))}">
+-          {!zid.Mileage__c} Miles<br/>
+         </apex:outputPanel>
+
+<apex:outputPanel rendered="{!NOT(ISBLANK(zid.Old_SF_Unit_Details__c))}">
+          {!zid.Old_SF_Unit_Details__c} <br/>
+         </apex:outputPanel>
+         
+         <apex:outputPanel rendered="{!NOT(ISBLANK(zid.Google_Drive_LInk__c) || ISBLANK(zid.Number_of_Images_in_Google_Drive__c) || (zid.Number_of_Images_in_Google_Drive__c == 0) )}">
+          <a href="{!zid.Google_Drive_LInk__c}">Click here to see photos of {!zid.Model__c}</a><br/>
+         </apex:outputPanel>
+         
+         <apex:outputPanel rendered="{!(ISBLANK(zid.Google_Drive_LInk__c) || ISBLANK(zid.Number_of_Images_in_Google_Drive__c) || (zid.Number_of_Images_in_Google_Drive__c == 0) )}">
+          <a href="{!zid.Google_Drive_LInk__c}">Photos Coming Soon, check this link in 12-48 hours</a><br />
+         </apex:outputPanel>  
+         
+         <apex:outputPanel rendered="{!NOT(ISBLANK(zid.Google_Drive_Videos_Link__c) || ISBLANK(zid.Number_of_Videos_in_Google_Drive__c) || (zid.Number_of_Videos_in_Google_Drive__c == 0) )}">
+          <a href="{!zid.Google_Drive_Videos_Link__c}">Click here to see Videos of the {!zid.Model__c}</a><br/>
+         </apex:outputPanel>
+         
+
+</li><br />    </apex:repeat>
+</ol>
+
+</apex:component>

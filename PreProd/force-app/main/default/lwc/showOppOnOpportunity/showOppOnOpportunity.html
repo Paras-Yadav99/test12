@@ -1,0 +1,92 @@
+<template>
+    <lightning-card title="Releated Opportunities " 
+                    icon-name="standard:opportunity">
+
+        <lightning-spinner alternative-text="Loading" 
+                            size="large"
+                            if:true={showSpinner}>
+        </lightning-spinner>
+        <template if:true={isWonData}>
+            <div class="slds-p-bottom_small">
+                
+                    <p><b class="slds-action-overflow--touch__footer slds-section__title"> Close Won Opportunity ({ShowNoOfOnWonOpp})</b></p>
+                
+
+                <div class="slds-p-top_small ,slds-p-bottom_medium">
+                    <lightning-datatable key-field="id"
+                                        columns={columns}
+                                        data={showWonOpp}
+                                        hide-checkbox-column="true"  
+                                        show-row-number-column="true"
+                                        >
+                    </lightning-datatable> 
+                    <div class="slds-p-around--medium ">
+
+                        <lightning-button if:true={ShowMoreOnWon} 
+                                        variant="brand-outline" 
+                                        label="ShowMore" title="ShowMore" 
+                                        onclick={handleWonOppShowMore} 
+                                        class="slds-align_absolute-center">
+                        </lightning-button>
+                        <lightning-button if:true={ShowLessOnWon} 
+                                        variant="brand-outline" 
+                                        label="ShowLess" 
+                                        title="ShowLess" 
+                                        onclick={handleWonOppShowLess} 
+                                        class="slds-align_absolute-center">
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <!--    <template if:false={wonOppRecords}>
+
+                <div>No data to display</div>
+
+            </template> -->
+        
+        <template if:true={isLostData}>
+            <div class="slds-p-bottom_small">
+                
+                <p><b class="slds-action-overflow--touch__footer slds-section__title"> Close Lost Opportunity ({ShowNoOfOnLostOpp}) </b></p>
+                
+
+                <div class="slds-p-top_small ,slds-p-bottom_medium">
+                    <lightning-datatable data={showLostOpp}
+                                        columns={columns}
+                                        key-field="id"
+                                        hide-checkbox-column="true"  
+                                        show-row-number-column="true"
+                                        >
+                                        
+                    </lightning-datatable>
+                    <div class="slds-p-around--medium ">
+                        <lightning-button if:true={ShowMoreOnLost} 
+                                        variant="brand-outline" 
+                                        label="ShowMore" title="ShowMore" 
+                                        onclick={handleLostOppShowMore} 
+                                        class="slds-align_absolute-center">
+                        </lightning-button>
+                        <lightning-button if:true={ShowLessOnLost} 
+                                        variant="brand-outline" 
+                                        label="ShowLess" 
+                                        title="ShowLess" 
+                                        onclick={handleLostOppShowLess} 
+                                        class="slds-align_absolute-center">
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+        </template>
+        
+        <div if:false={isWonData}><div if:false={isLostData} >
+            
+            <div class="slds-p-left_xx-large , slds-p-bottom_medium">
+                <b>
+                    No data to display.
+                </b>
+            </div>
+
+        </div></div>
+    </lightning-card>
+</template>

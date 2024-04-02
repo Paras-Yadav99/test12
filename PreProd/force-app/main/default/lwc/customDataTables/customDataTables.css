@@ -1,0 +1,122 @@
+table thead th{
+    background-color: #c9c4c4;
+    color: #ffff;
+    border-right: 1px solid #e4e9f2;
+    padding: .25rem .3rem;
+
+}
+table tbody td{
+    border-bottom: 1px solid #dddbda;
+    padding: .2rem .3rem;
+}
+table tbody tr:hover>td:not(.slds-has-focus){
+    box-shadow: #dddbda 0 -1px 0 inset, #dddbda 0 1px 0 inset;
+}
+table tbody tr:hover>td{
+    background-color: #f3f2f2;
+}
+table tbody tr.css-is-selected>td{
+    background-color: #dff0fe;
+}
+table thead th.css-is-sortable:hover, table thead th.css-is-sortable:focus{
+    background-color: #f3f2f2;
+    color: #c9c4c4;
+}
+table thead th.css-is-sortable:hover .css-sort-icon-div, table thead th.css-is-sortable:focus .css-sort-icon-div {
+    visibility:visible !important;
+    color: #c9c4c4;
+}
+.css-resizable__handle {
+    width: .25rem;
+    height: 27px;
+    position: absolute;
+    margin-top: -.25rem;
+    margin-left: .1rem;
+    cursor: col-resize;
+}
+.css-resizable__divider {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 1px;
+    height: 100vh;
+    display: block;
+    cursor: col-resize;
+    opacity: 0;
+}
+.css-is-resizable:hover .css-resizable__handle, .css-is-resizable:focus .css-resizable__handle {
+    background: #c9c7c5;
+}
+table th .css-resizable__handle:hover, table th .css-resizable__handle:focus{
+    background: #0070d2;
+    cursor: col-resize;
+}
+.css-resizable__handle:hover .css-resizable__divider, .css-resizable__handle:focus .css-resizable__divider{
+    opacity: 1;
+    z-index: 100;
+    background: #0070d2;
+    cursor: col-resize;
+}
+table .css-cell-edit:hover {
+    background-color: #ffff !important;
+    cursor: text;
+}
+table .css-cell-edited, table .css-cell-edited:hover {
+    background-color: #faffbd !important;
+}
+.customSelect select{
+    padding-right: 1.25rem;
+    min-height: inherit;
+    line-height: normal;
+    height: 1.5rem;
+}
+.customSelect label{
+    margin-top: .1rem;
+}
+.customSelect .slds-select_container::before{
+    border-bottom: 0;
+}
+.css-sort_asc{
+    line-height: 1;
+}
+.css-sort_desc{
+    transform: rotate(180deg);
+    line-height: .5;
+}
+.css-dt-required{    
+    vertical-align: top;
+    margin-right:.125rem;
+}
+.slds-checkbox_faux{
+    bottom: .1rem;
+}
+
+/* table tr:last-child {
+    font-weight: bold;  
+  } */
+
+  .scroller {
+    overflow: scroll;
+  }
+
+  .scroller {
+  /* This is the magic bit for Firefox */
+  scrollbar-width: none;
+}
+
+.scroller::-webkit-scrollbar {
+  /* This is the magic bit for WebKit */
+  display: none;
+}
+
+.buttonCss .innerButton::part(button) {
+    /* This targets the inner button with the "innerButton" class */
+    padding-right: 9px;
+    width: 10px;
+}
+.button[part="icon"] {
+    /* Your CSS styles for the button with part="icon" */
+    padding: 10px;
+    background-color: red;
+    /* Add any other styles you need */
+}

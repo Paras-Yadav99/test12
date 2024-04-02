@@ -1,0 +1,37 @@
+<apex:component controller="thisContactEquipmentMatchController" access="global">
+<apex:attribute name="ContactId" description="This is the Contact Id." type="Id" assignTo="{!thisContactId}"/>
+
+<ol>
+    <apex:repeat value="{!thisContactZids}" var="zid">
+<li>{!zid.year__c} {!zid.category__c} {!zid.Model__c} {!zid.Starting_Advertised_Retail_Price__c}<br />
+         <apex:outputPanel rendered="{!NOT(ISBLANK(zid.Hour__c))}">
+             {!zid.Hour__c} hours <br/>
+         </apex:outputPanel>
+
+         <apex:outputPanel rendered="{!NOT(ISBLANK(zid.Old_SF_Unit_Details__c))}">
+           {!zid.Old_SF_Unit_Details__c} <br/>
+         </apex:outputPanel>
+         
+         <apex:outputPanel rendered="{!NOT(ISBLANK(zid.Google_Drive_LInk__c))}">
+            {!zid.Google_Drive_LInk__c}<br/>
+         </apex:outputPanel>
+
+<apex:outputPanel rendered="{!If(ISBLANK(zid.Attachments_Included__c),false,true)}">
+
+Attachments Included<br />
+<apex:outputText escape="false" value="{!SUBSTITUTE(zid.Attachments_Included__c,';','<br/>')}"/>
+<br /><br />
+</apex:outputPanel>
+
+<apex:outputPanel rendered="{!If(ISBLANK(zid.Options_Included__c),false,true)}">
+Options Included<br />
+<apex:outputText escape="false" value="{!SUBSTITUTE(zid.Options_Included__c,';','<br/>')}"/>
+<br /><br />
+</apex:outputPanel>
+
+</li><br />
+    </apex:repeat>
+</ol>
+
+
+</apex:component>

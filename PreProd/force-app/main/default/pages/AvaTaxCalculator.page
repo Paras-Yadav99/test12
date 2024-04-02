@@ -1,0 +1,3 @@
+<apex:page standardController="Custom_AvaTax__c"
+extensions="CustomAvaTaxCalculator" action="{!calculateTaxButton}">
+</apex:page>

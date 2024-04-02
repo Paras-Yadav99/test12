@@ -1,0 +1,56 @@
+<template>
+    <div class="slds-p-around_medium custom-top-botton-p-small lgc-bg">
+    <template if:true={isPicklist}>
+        <lightning-combobox
+            name={inputName}
+            value={inputValue}
+            placeholder={placeHolder}
+            label={inputLabel}
+            options= {picklistOptions}
+            onchange={handleValueChange} 
+        ></lightning-combobox>
+    </template>
+    <template if:true={isText}>
+        <lightning-input 
+            type="text" 
+            name={inputName}
+            label={inputLabel}
+            value={inputValue}
+            placeholder={placeHolder}
+            onchange={handleValueChange}
+        ></lightning-input>
+    </template>
+    <template if:true={isNumber}>
+        <lightning-input 
+            type="number" 
+            name={inputName}
+            label={inputLabel}
+            value={inputValue}
+            placeholder={placeHolder}
+            onchange={handleValueChange}
+        ></lightning-input>
+    </template>
+    <template if:true={isTextArea}>
+        <lightning-textarea
+            name={inputName}
+            label={inputLabel}
+            value={inputValue}
+            placeholder={placeHolder}
+            onchange={handleValueChange}
+        ></lightning-textarea>
+    </template>
+    <template if:true={isMultiPicklist}>
+        <div class="slds-scrollable_y slds-border_bottom slds-border_top" style="height:4rem">
+            <div class="slds-text-longform">
+                <lightning-checkbox-group
+                    name={inputName}
+                    label={inputLabel}
+                    options={picklistOptions}
+                    value={inputValue}
+                    onchange={handleValueChange}>
+                </lightning-checkbox-group>
+            </div>
+          </div>
+    </template>
+    </div>
+</template>

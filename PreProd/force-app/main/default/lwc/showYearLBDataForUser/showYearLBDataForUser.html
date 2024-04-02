@@ -1,0 +1,100 @@
+<template>
+
+	<!-- WEEK HEADER SECTION-->
+	<template if:true={isData}>
+		<div class="slds-scrollable--x" style="width: 100%;">
+			<div class=" slds-p-top_medium slds-p-around--xx-small">
+				<table cellspacing="0 ! important" width="50px">
+					<thead>
+						<th class="slds-p-around--medium slds-border--top slds-border--left slds-border--right "
+							style="width: 16%;background-color: ghostwhite;" height="50">
+							<b>{userName}</b>
+						</th>
+
+						<template for:each={tableHeaders} for:item="header">
+							<th class="slds-p-around--medium slds-border--top slds-border--left slds-border--right "
+								height="50" style="background-color: ghostwhite;" key={header}>
+								{header}
+							</th>
+						</template>
+
+					</thead>
+					<tbody>
+
+						<!--<td>
+								<table class="slds-table slds-table_bordered slds-border--left ">
+									<thead>
+										<th class="slds-cell-wrap slds-text-align_center" width="200" height="50">
+											NAME </th>class="slds-border_bottom" 
+									</thead>-->
+						<!--<tbody>-->
+						<td>
+							<table class="slds-table slds-table_bordered slds-border--left ">
+								<thead>
+
+								</thead>
+								<tbody>
+									<template iterator:it={lstFieldData}>
+
+										<tr style="width: 100%;" key={it.id}>
+											<td>
+												<div><b>{it.value}</b></div>
+											</td>
+										</tr>
+									</template>
+								</tbody>
+							</table>
+						</td>
+						<!--</tbody>
+								</table>class="slds-align--absolute-center slds-border_bottom" 
+							</td>-->
+						<!--1st WEEK SECTION-->
+						<template iterator:it={reportData}>
+							<td class="slds-align-top" key={it.id}>
+								<table class="slds-table slds-table_bordered slds-border--left  slds-border--right">
+									<thead>
+
+									</thead>
+									<tbody>
+										<template for:each={it.value.salesData} for:item="data">
+											<!--<template iterator:ite={it.value.salesData}>-->
+
+											<tr style="width: 100%;" key={data.id}>
+												<td>
+													<template if:false={data.isPrecent}>
+														<template if:false={data.isPrecent1}>
+															<div class="slds-text-align--center">${data.value}</div>
+														</template>
+														<template if:true={data.isPrecent1}>
+															<div class="slds-text-align--center">{data.value}</div>
+														</template>
+													</template>
+													<template if:true={data.isPrecent}>
+														<template if:true={data.isPrecent1}>
+															<div class="slds-text-align--center">{data.value}%</div>
+														</template>
+														<template if:false={data.isPrecent1}>
+															<div class="slds-text-align--center">{data.value}</div>
+														</template>
+													</template>
+
+												</td>
+											</tr>
+										</template>
+									</tbody>
+								</table>
+							</td>
+						</template>
+
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</template>
+	<template if:false={isData}>
+		{pageMessage}
+	</template>
+
+
+</template>

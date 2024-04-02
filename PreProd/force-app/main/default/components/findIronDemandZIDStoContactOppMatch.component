@@ -1,0 +1,51 @@
+<apex:component controller="findIronDemandZIDStoContactOppMatch" access="global">
+<apex:attribute name="EquipmentId" description="This is the Equipment Id." type="Id" assignTo="{!thisIronDemandId}"/>
+<apex:attribute name="AccountId" description="This is the Account Id." type="Id" assignTo="{!thisAccountId}"/>
+<apex:attribute name="ContactId" description="This is the Contact Id." type="Id" assignTo="{!thisContactId}"/>
+
+<apex:variable value="{!0}" var="counter"/> 
+
+<apex:outputPanel rendered="{!thisContactZids.size > 0}"><span style="margin-left: -40px;">Here are machines that you currently have active interest for:<br /><br /></span></apex:outputPanel>
+
+<ol>
+    <apex:repeat value="{!thisContactZids}" var="zid">
+
+<li>{!zid.Year__c} {!zid.Manufacturer__c} {!zid.Model__c} ({!zid.ProductCode}) &nbsp;       
+{!zid.Starting_Advertised_Retail_Price__c} <br />
+{!zid.Displayed_Vague_Location__c}
+         
+         
+         
+
+
+<br />
+
+<apex:outputPanel rendered="{!NOT(ISBLANK(zid.Hour__c))}">
+-          {!zid.Hour__c} Hours<br/>
+         </apex:outputPanel>
+
+<apex:outputPanel rendered="{!NOT(ISBLANK(zid.Old_SF_Unit_Details__c))}">
+          {!zid.Old_SF_Unit_Details__c} <br/>
+         </apex:outputPanel>
+        
+
+<apex:outputPanel rendered="{!NOT(ISBLANK(zid.Google_Drive_LInk__c) || ISBLANK(zid.Number_of_Images_in_Google_Drive__c) || (zid.Number_of_Images_in_Google_Drive__c == 0) )}">
+          <a href="{!zid.Google_Drive_LInk__c}">Click here to see Photos of the {!zid.Model__c}</a><br/>
+         </apex:outputPanel>
+         
+         <apex:outputPanel rendered="{!(ISBLANK(zid.Google_Drive_LInk__c) || ISBLANK(zid.Number_of_Images_in_Google_Drive__c) || (zid.Number_of_Images_in_Google_Drive__c == 0) )}">
+          <a href="{!zid.Google_Drive_LInk__c}">Photos Coming Soon, check this link in 12-48 hours</a><br />
+         </apex:outputPanel>  
+
+<apex:outputPanel rendered="{!NOT(ISBLANK(zid.Google_Drive_Videos_Link__c) || ISBLANK(zid.Number_of_Videos_in_Google_Drive__c) || (zid.Number_of_Videos_in_Google_Drive__c == 0) )}">
+          <a href="{!zid.Google_Drive_Videos_Link__c}">Click here to see Videos of the {!zid.Model__c}</a><br/>
+         </apex:outputPanel>
+         
+
+</li><br />
+ <apex:variable var="counter" value="{!counter + 1}"/> 
+    </apex:repeat>
+</ol>
+
+
+</apex:component>

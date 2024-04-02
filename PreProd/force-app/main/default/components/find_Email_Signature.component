@@ -1,0 +1,24 @@
+<apex:component controller="VFEmailSignature" access="global">
+<apex:attribute name="ContactName" description="This is the Contact First Name" type="String" assignTo="{!thisUserFirstName}"/>
+
+    <apex:repeat value="{!ThisUserInfo}" var="contact">
+     
+{!contact.FirstName} {!contact.LastName}<br />
+<strong>{!contact.Title}, Zadoon, L.L.C.</strong><br /><br />
+<img src="https://zadoon1234--c.na50.content.force.com/servlet/servlet.ImageServer?id=0156A000000R7wo&oid=00D54000000x6wV&lastMod=1498258862000" /><br /><br />
+1290 Bay Dale Dr., Suite 338<br />
+Arnold, MD 21012 U.S.A.<br />
+
+
+<apex:outputPanel rendered="{!NOT(ISBLANK(contact.MobilePhone))}">
+          Cell: {!contact.MobilePhone}<br />
+</apex:outputPanel>
+Office: (410) 774-1487<br />
+
+<a href="www.zadoon.com">www.zadoon.com</a><br /><br />
+         
+         
+</apex:repeat>
+
+
+</apex:component>
