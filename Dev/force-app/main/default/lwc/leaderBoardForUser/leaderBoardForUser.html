@@ -1,0 +1,150 @@
+<template>
+	<lightning-card>
+		<!--Spinner on Card-->
+		<template if:true={isLoading}>
+			<lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+		</template>
+		<div class="slds-p-around--medium">
+			<table class="" cellspacing="0">
+				<thead>
+				</thead>
+				<tbody>
+					<tr>
+						<!--<td style="font-weight:bold; width: 1%;padding-top: 01.8%;">
+							<lightning-button label="" onclick={hanldeRefreshClick} variant="brand"
+								icon-name="utility:refresh">
+							</lightning-button>
+						</td>-->
+						<!--PICKLIST-->
+
+						<!--Year Option-->
+						<td style="font-weight:bold; width: 16%;padding-top: 0.2%;" class="slds-p-right--x-small">
+							<lightning-combobox name="Year" label="Year" value={defaultStartYear}
+								placeholder="Select Year" options={yearOptions} onchange={captureYearActionChange}
+								style="font-weight:bold">
+							</lightning-combobox>
+						</td>
+
+						<!--Quarter Option-->
+
+						<td style="font-weight:bold; width: 16%;padding-top: 0.2%;" class="slds-p-right--x-small">
+							<lightning-combobox name="Quarter" label="Quarter" value={QuarterActionValue}
+								placeholder="Select Quarter" options={quarterOption}
+								onchange={captureQuarterActionChange} style="font-weight:bold">
+							</lightning-combobox>
+						</td>
+
+						<!--User Option-->
+						<td style="font-weight:bold; width: 16%;padding-top: 0.2%;" class="slds-p-right--x-small">
+							<lightning-combobox name="User" label="User" value={selectedUser} placeholder="Select User"
+								options={userOption} onchange={captureUserChange} disabled={disableUserPicklist} style="font-weight:bold">
+							</lightning-combobox>
+						</td>
+
+						<!--Apply-->
+						<td style="width: 16%;padding-top: 01.8%;" class="slds-p-right--x-small">
+							<lightning-button variant="brand" label="APPLY" onclick={hanldeApply}>
+							</lightning-button>
+						</td>
+						<!--PICKLIST-->
+
+						<!--Month Option-->
+						<!--<td style="font-weight:bold; width: 16%;padding-top: 0.2%;" class="slds-p-right--x-small">
+							<lightning-combobox name="Month" label="Month" value={defaultStartYear}
+								placeholder="Select Month" options={yearOptions} onchange={captureYearActionChange}
+								style="font-weight:bold">
+							</lightning-combobox>
+						</td>-->
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!--<template if:false={isQuarterSelected}>-->
+		<div class="slds-grid slds-col">
+			<!--Team Lead and Team Members Options-->
+			<div class="slds-grid" style=" width: 100% !important;">
+				<div class="slds-size--1-of-2 slds-box" style="margin-top: 2px;">
+					<lightning-card title="SALES LEADER BOARD" icon-name="utility:chart">
+						<template if:true={chartConfiguration}>
+							<c-leader-board-for-user-graph chart-config={chartConfiguration}>
+							</c-leader-board-for-user-graph>
+						</template>
+					</lightning-card>
+				</div>
+
+				<div class="slds-size--1-of-2 slds-box" style="margin-top: 2px;">
+					<lightning-card title="PROCUREMENT LEADER BOARD" icon-name="utility:chart">
+						<template if:true={chartConfigurationProc}>
+							<c-leader-board-for-user-graph chart-config={chartConfigurationProc}>
+							</c-leader-board-for-user-graph>
+						</template>
+					</lightning-card>
+				</div>
+			</div>
+		</div>
+		<!--SALES LEADER BOARD-->
+			<p><b class="slds-action-overflow--touch__footer slds-section__title">SALES LEADER BOARD</b></p>
+			<template if:true={isQuarterSelected}>
+
+		<div if:true={isSalesMonthlyData}>
+			<c-show-data-leader-board-for-user report-data={salesMonthlyDataLst} is-data={isSalesMonthlyData}
+			user-name = {userName} quarter={QuarterActionValue}>
+			</c-show-data-leader-board-for-user>
+		</div>
+		</template>
+
+		<template if:false={isQuarterSelected}>
+			<div if:true={isSalesMonthlyData}>
+				<c-show-year-l-b-data-for-user report-data={salesMonthlyDataLst} is-data={isSalesMonthlyData}
+				user-name = {userName} quarter={QuarterActionValue}>
+				</c-show-year-l-b-data-for-user>
+			</div>
+		
+		</template>
+
+		<!--PROCUREMENT LEADER BOARD-->
+		<p style="padding-top: 4vH;"><b class="slds-action-overflow--touch__footer slds-section__title">PROCUREMENT LEADER BOARD</b></p>
+
+		<template if:true={isQuarterSelected}>
+		<div if:true={isProcurmentMonthlyData}>
+			<c-show-data-leader-board-for-user report-data={procurmentMonthlyDataLst} is-data={isProcurmentMonthlyData}
+			user-name = {userName} quarter={QuarterActionValue}>
+			</c-show-data-leader-board-for-user>
+		</div>
+		</template>
+		<template if:false={isQuarterSelected}>
+			<div if:true={isProcurmentMonthlyData}>
+				<c-show-year-l-b-data-for-user report-data={procurmentMonthlyDataLst} is-data={isProcurmentMonthlyData}
+				user-name = {userName} quarter={QuarterActionValue}>
+				</c-show-year-l-b-data-for-user>
+			</div>
+			</template>
+		<!--</template>
+		<template if:true={isQuarterSelected}>
+			<div class="slds-grid slds-col">-->
+			<!--Team Lead and Team Members Options-->
+			<!--<div class="slds-grid" style=" width: 100% !important;">
+				<div class="slds-size--1-of-2 slds-box" style="margin-top: 2px;">
+					<lightning-card title="SALES LEADER QUARTER BOARD " icon-name="utility:chart">
+						<template if:true={chartConfigurationSalesQ1}>
+							<c-leader-board-for-user-graph chart-config={chartConfigurationSalesQ1}>
+							</c-leader-board-for-user-graph>
+						</template>
+					</lightning-card>
+				</div>
+
+				<div class="slds-size--1-of-2 slds-box" style="margin-top: 2px;">
+					<lightning-card title="PROCUREMENT LEADER QUARTER BOARD" icon-name="utility:chart">
+						<template if:true={chartConfigurationProcQ1}>
+							<c-leader-board-for-user-graph chart-config={chartConfigurationProcQ1}>
+							</c-leader-board-for-user-graph>
+						</template>
+					</lightning-card>
+				</div>
+			</div>
+		</div>
+		</template>-->
+
+
+	</lightning-card>
+</template>

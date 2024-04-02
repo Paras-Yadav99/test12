@@ -1,0 +1,129 @@
+<template>
+    <div class="spinner">
+        <template if:true={isLoading}>
+             <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+             </lightning-spinner>
+        </template>
+    </div>
+    <lightning-card title="All Units">
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_2-of-8 ">
+                    <div class="slds-p-left_medium custom-top-botton-p-small lgc-bg">
+                        <template if:true={categories.data}>
+                            <lightning-combobox
+                                label="Category"
+                                name="Category__c"
+                                value={selectedCategory}
+                                required="true"
+                                placeholder="Select Category"
+                                options= {categories.data.values}
+                                onchange={handleCategoryChange} 
+                            ></lightning-combobox>
+                        </template>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-8">
+                    <div class="slds-p-left_medium custom-top-botton-p-small lgc-bg">
+                        <lightning-input type="text" label="Min Year" name = "Min_Year__c" value={filters.MinYear}  placeholder="Min Year...." onchange={handleInputChange} ></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-8">
+                    <div class="slds-p-left_medium custom-top-botton-p-small lgc-bg">
+                        <lightning-input type="text" label="Max Year" name = "Max_Year__c" value={filters.MaxYear}  placeholder="Max Year...." onchange={handleInputChange} ></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_2-of-8">
+                    <div class="slds-p-left_medium custom-top-botton-p-small lgc-bg">
+                        <lightning-input type="text" label="Make" name = "Make__c" value={filters.Make}  placeholder="Please Type Make" onchange={handleInputChange}></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_2-of-8"> 
+                    <div class="slds-p-left_medium custom-top-botton-p-small lgc-bg">
+                        <lightning-input type="text" label="Model" name = "Model__c" value={filters.Model}  placeholder="Please Type Model" onchange={handleInputChange}></lightning-input>
+                    </div>
+                </div>
+            </div>
+            <!--Second Row-->
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-8">
+                    <div class="slds-p-left_medium custom-top-botton-p-small lgc-bg">
+                        <lightning-input type="number" label="Min Weight" name = "Min_Weight__c" value={filters.MinWeight}  placeholder="Min Weight..." onchange={handleInputChange}></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-8">
+                    <div class="slds-p-left_medium custom-top-botton-p-small lgc-bg">
+                        <lightning-input type="number" label="Max Weight" name="Max_Weight__c" value={filters.MaxWeight}  placeholder="Max Weight..." onchange={handleInputChange}></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-8">
+                    <div class="slds-p-left_medium custom-top-botton-p-small lgc-bg">
+                        <lightning-input type="number" label="Min Hour" name="Min_Hour__c" value={filters.Minhour}  placeholder="Min Hour..." onchange={handleInputChange}></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-8">
+                    <div class="slds-p-left_medium custom-top-botton-p-small lgc-bg">
+                        <lightning-input type="number" label="Max Hour" name="Max_Hour__c" value={filters.MaxHour}  placeholder="Max Hour..." onchange={handleInputChange}></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-8">
+                    <div class="slds-p-left_medium custom-top-botton-p-small lgc-bg">
+                        <lightning-input type="number" label="Min Price" name = "Min_Price__c" value={filters.MinPrice}  placeholder="Min Price..." onchange={handleInputChange}></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-8">
+                    <div class="slds-p-left_medium custom-top-botton-p-small lgc-bg">
+                        <lightning-input type="number" label="Max Price" name = "Max_Price__c" value={filters.MaxPrice}  placeholder="Max Price..." onchange={handleInputChange}></lightning-input>
+                    </div>
+                </div>
+
+                <div class="slds-col slds-size_1-of-8">
+                    <div class="slds-p-left_medium custom-top-botton-p-small lgc-bg">
+                        <lightning-input type="text" label="Unit Name" name = "Unit_Name__c" value={filters.UnitName}  placeholder="Please Type Unit..." onchange={handleInputChange}></lightning-input>
+                    </div>
+                </div>
+                <template if:false={showEOPage}>
+                    <div class="slds-col slds-size_1-of-8">
+                        <div class="slds-p-left_medium custom-p-top-large  lgc-bg">
+                            <lightning-button class="slds-p-left_medium " disabled={isCategorySelected} variant="brand" label="More Filters..." title="More Filters..." onclick={changeAdditionalFilteres} ></lightning-button>
+                        </div>
+                    </div>
+                </template>
+                <template if:true={showEOPage}>
+                    <div class="slds-col slds-size_1-of-8">
+                        <div class="slds-p-left_medium custom-p-top-large lgc-bg">
+                            <lightning-button class="slds-p-left_medium " variant="brand" label="Less Filters.." title="Less Filters.." onclick={changeAdditionalFilteres} ></lightning-button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        
+        <template if:true={showEOPage}>
+            <div class="slds-grid slds-wrap">
+                <template if:true={childFiltersList}>
+                    <template for:each={childFiltersList} for:item="filter">
+                        <div key={filter.label} class="slds-col slds-size_1-of-4">
+                            <c-input-component
+                                input-type = {filter.inputType}
+                                input-name={filter.name}
+                                input-map = {adFiltersStrinfied}
+                                place-holder= {filter.placeholder}
+                                input-label={filter.label}
+                                picklist-options= {filter.pickListOptions}
+                                onvaluechange={handleChildInputChange} 
+                        ></c-input-component>
+                          </div>
+                    </template>
+                </template>
+            </div>
+        </template>
+        <div class="slds-align_absolute-center" style="height:5rem">
+            <lightning-button variant="brand" label="Search" title="Search" onclick={search} ></lightning-button>
+            <lightning-button class="slds-p-left_medium " variant="Neutral" label="Go Back" title="Go Back"  ></lightning-button>
+        </div>
+
+    </lightning-card>
+    <template if:true={showUnitList}>
+        <c-show-units unit-data = {unitsStringified}></c-show-units>
+    </template>
+    
+</template>

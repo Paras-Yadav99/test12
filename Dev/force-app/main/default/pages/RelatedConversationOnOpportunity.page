@@ -1,0 +1,91 @@
+<apex:page showHeader="false" standardController="Opportunity">
+    
+    <apex:includeScript value="/soap/ajax/30.0/connection.js" />
+    
+    <apex:includeScript value="/soap/ajax/24.0/apex.js" />
+    
+    <apex:includeLightning rendered="true"/>
+    
+    <div id="lightning" />
+    
+    
+    
+    <script>
+    
+    var recordId = "{!$CurrentPage.parameters.id}";
+    console.log("recordId : "+ recordId);
+    sforce.connection.sessionId = "{!$Api.Session_ID}";
+    
+    var qr = sforce.connection.query("SELECT id, Buyer_Primary_Contact__c FROM Opportunity where Id='"+ recordId +"'");
+  //  debugger;
+    console.log('qr :' +qr);
+
+
+//{done:'true', queryLocator:null, , size:'1', }
+
+ //   var AccountsArr  = (records && records[0]) ? records[0]['Accounts'] : [];   
+     
+ //   var Accounts = AccountsArr ? AccountsArr.getArray("records") : [];
+ //   recordId = Accounts.length ? Accounts[0]['Id'] : '';
+
+
+     var records = qr.getArray("records");
+   
+    console.log('records :' +records);
+   
+ //records:{type:'Opportunity', Id:'0066F000014PepIQAS', AccountId:'0016F00003AY34OQAT', }
+ 
+     var ContactId = records[0].Buyer_Primary_Contact__c;
+     console.log('ContactId :' +ContactId);
+     alert('ContactId '+ ContactId);
+ 
+   
+
+    $Lightning.use(
+        
+        "smagicinteract:conversationApp", 
+        
+        function() {
+            
+            $Lightning.createComponent(
+                
+                "smagicinteract:conversations",
+                
+                {
+                    
+                    recordId : ContactId,
+                    
+                    sObjectName : "Contact",
+                    
+                    phoneFieldCSV : "",
+                    
+                    embedContext : "detail"//,
+                    //uiContext: "Lightning"
+                    
+                },
+                
+                "lightning",
+                
+                function(cmp) {
+                    
+                }
+                
+            );
+            
+        }
+        
+    );
+    
+    </script>
+    
+    <style>
+        
+        .smagicinteractConversations.ui-context_lightning.embeded-context_activitySection .conversationWrapper, .smagicinteractConversations.ui-context_lightning.embeded-context_activitySection .hidddenBoxWrapper, .smagicinteractConversations.ui-context_lightning.embeded-context_detail .conversationWrapper, .smagicinteractConversations.ui-context_lightning.embeded-context_detail .hidddenBoxWrapper {
+        
+        height: 100%;
+        
+        }
+        
+    </style>
+    
+</apex:page>

@@ -1,0 +1,53 @@
+<apex:component controller="thisZIDsforAccountController" access="global">
+<apex:attribute name="AccountId" description="This is the Account Id." type="Id" assignTo="{!thisAccountId}"/>
+
+<ol>
+    <apex:repeat value="{!thisAccountZids}" var="zid">
+<li>{!zid.year__c} {!zid.category__c} {!zid.Model__c} ({!zid.ProductCode})<br />
+         <apex:outputPanel rendered="{!(NOT(ISBLANK(zid.Hour__c))  && zid.On_or_Off_Highway__c == 'Off Highway')}">
+  - {!zid.Hour__c} hours <br/>
+         </apex:outputPanel>
+         <apex:outputPanel rendered="{!(NOT(ISBLANK(zid.Mileage__c)) && zid.On_or_Off_Highway__c == 'On Highway')}">
+  - {!zid.Mileage__c} miles <br/>
+         </apex:outputPanel>
+         <apex:outputPanel rendered="{!(NOT(ISBLANK(zid.Serial_Number__c))  && zid.On_or_Off_Highway__c == 'Off Highway')}">
+  - Serial Number: {!zid.Serial_Number__c}<br/>
+         </apex:outputPanel>
+         <apex:outputPanel rendered="{!(NOT(ISBLANK(zid.VIN__c)) && zid.On_or_Off_Highway__c == 'On Highway')}">
+  - Serial Number: {!zid.VIN__c}<br/>
+         </apex:outputPanel>
+         <apex:outputPanel rendered="{!(zid.Display_Lowest_Purchase_Price__c != 0.00)}">
+- ${!zid.Display_Lowest_Purchase_Price__c} <br/> 
+  </apex:outputPanel>
+      
+         
+  
+         
+  <apex:outputPanel rendered="{!ISBLANK(zid.Year__c)}">
+    What year is it?<br/>
+</apex:outputPanel>
+<apex:outputPanel rendered="{!(ISBLANK(zid.Hour__c)  && zid.On_or_Off_Highway__c == 'Off Highway')}">
+    Do you know the hours, or an estimation?<br/>
+</apex:outputPanel>
+<apex:outputPanel rendered="{!(ISBLANK(zid.Mileage__c)  && zid.On_or_Off_Highway__c == 'On Highway')}">
+    Do you know the mileage, or an estimation?<br/>
+</apex:outputPanel>
+
+  <apex:outputPanel rendered="{!IF(OR(isBlank(zid.Number_of_Images_in_Google_Drive__c), zid.Number_of_Images_in_Google_Drive__c < 5), true, false )}">
+    Do you have any more photos you can email us?  <a href="{!zid.Google_Drive_LInk__c}">Click here to see them</a><br/>
+</apex:outputPanel>
+
+
+  <apex:outputPanel rendered="{!ISBLANK(zid.Number_of_Videos_in_Google_Drive__c) || zid.Number_of_Videos_in_Google_Drive__c == 0 }">
+    We do not have any videos of the Unit, do you have any you can email us?<br/>
+</apex:outputPanel>
+
+What would your bottom number be on the {!zid.Model__c}? <br />
+         
+
+
+</li><br />
+    </apex:repeat>
+</ol>
+
+</apex:component>

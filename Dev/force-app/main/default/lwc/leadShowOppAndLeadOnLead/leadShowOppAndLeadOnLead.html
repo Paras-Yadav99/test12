@@ -1,0 +1,20 @@
+<template>
+    <lightning-card title="Releated Opportunity and Leads" icon-name="standard:lead">
+    <h3><p><b>Close Won Opportunity </b></p></h3>
+    <lightning-datatable
+        columns={columns}
+        data={wonOppRecords}
+        key-field="Name"
+    >
+    </lightning-datatable> 
+
+    <h3><p><b>Close Lost Opportunity </b></p></h3>
+    <lightning-datatable
+        data={lostOppRecords}
+        columns={columns}
+        key-field="OpportunityName"
+    >
+    </lightning-datatable>
+
+</lightning-card>
+</template>

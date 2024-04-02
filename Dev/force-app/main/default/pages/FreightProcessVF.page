@@ -1,0 +1,24 @@
+<!-- 
+
+Input Parameter: parm1 will contain value of unit Id or Inpection report record Id. If Freight Unit Company id is passed, the component will be 	
+		in Edit mode. 
+
+			
+
+-->
+<apex:page showHeader="false" sidebar="false">
+    <apex:includeLightning />    
+    <div id="LightningComponentid" />    
+    <script>
+    $Lightning.use("c:freightProcessFormAPP", function() {
+        $Lightning.createComponent("c:FreightProcessForm",
+                                   { recordId : '{!$CurrentPage.parameters.parm1}'
+                                   },
+                                   "LightningComponentid",
+                                   function(cmp) {
+                                       console.log('LWC Componenet added in VF page');
+                                       console.log('LWC Componenet added in VF page',{!$CurrentPage.parameters.recordId});
+                                   });
+    });
+    </script>
+</apex:page>

@@ -1,0 +1,87 @@
+<template>
+
+    <!-- WEEK HEADER SECTION-->
+			<template if:true={isData}>
+				<div class="slds-p-top_medium slds-scrollable--x"  style="width: 100%;">
+					<table class="table table-striped table-bordered table-sm slds-cell-wrap" cellspacing="0"
+						width="50px">
+						<thead>
+							<th class="slds-p-around--medium slds-text-align_right slds-border--top slds-border--left slds-border--right "
+								style="padding-right: 6.9%;" height="50">
+							</th>
+							<th class="slds-p-around--medium slds-text-align_center slds-border--top " height="50">
+								Quarter 1</th>
+							<th class="slds-p-around--medium slds-text-align_center  slds-border--top slds-border--left slds-border--right"
+								height="50">
+								Quarter 2</th>
+							<th class="slds-p-around--medium slds-text-align_center  slds-border--top slds-border--left slds-border--right"
+								height="50">
+								Quarter 3</th>
+							<th class="slds-p-around--medium slds-text-align_center  slds-border--top slds-border--left slds-border--right"
+								height="50">
+								Quarter 4</th>
+                            <th class="slds-p-around--medium slds-text-align_center  slds-border--top slds-border--left slds-border--right"
+								height="50">
+								Quarter Total</th>
+
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<table class="slds-table slds-table_bordered slds-border--left ">
+										<thead>
+											<th class="slds-cell-wrap slds-text-align_center" width="200" height="50">
+												NAME </th>
+										</thead>
+										<tbody>
+
+											<template iterator:it={reportData.Quarter1}>
+
+												<tr class="slds-hint-parent" key={it.id}>
+													<td>
+														<div><b>{it.value.Name}</b></div>
+													</td>
+												</tr>
+											</template>
+										</tbody>
+									</table>
+								</td>
+								<!--1st Quarter SECTION-->
+								<td class="slds-align-top">
+									<c-show-sales-monthly-data parent-data={reportData.Quarter1}>
+									</c-show-sales-monthly-data>
+								</td>
+								<!--2nd Quarter SECTION-->
+
+								<td class="slds-align-top">
+									<c-show-sales-monthly-data parent-data={reportData.Quarter2}>
+									</c-show-sales-monthly-data>
+								</td>
+								<!--3rd Quarter SECTION-->
+								<td class="slds-align-top">
+									<c-show-sales-monthly-data parent-data={reportData.Quarter3}>
+									</c-show-sales-monthly-data>
+								</td>
+
+                                <!--4Th Quarter SECTION-->
+								<td class="slds-align-top">
+									<c-show-sales-monthly-data parent-data={reportData.Quarter4}>
+									</c-show-sales-monthly-data>
+								</td>
+
+								<!--TOTAL Quarter SECTION-->
+								<td class="slds-align-top">
+									<c-show-sales-monthly-data parent-data={reportData.QuarterTotal}>
+									</c-show-sales-monthly-data>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</template>
+			<template if:false={isData}>
+				{pageMessage}
+			</template>
+
+
+</template>

@@ -1,0 +1,7 @@
+<apex:component controller="VFComponentOrgWideEmailAddress" access="global">
+
+<apex:attribute name="OWASender" description="This is the OWASender" type="String" assignTo="{!thisOWASender}"/>
+
+     {!ThisOWA}
+
+</apex:component>

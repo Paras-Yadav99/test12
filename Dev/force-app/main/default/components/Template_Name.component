@@ -1,0 +1,7 @@
+<apex:component controller="VFComponentTemplateName" access="global">
+<apex:attribute name="TemplateString" description="This is the Template String." type="String" assignTo="{!thisTemplateString}"/>
+
+    {!ThisTemplate}
+
+
+</apex:component>

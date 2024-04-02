@@ -1,0 +1,7 @@
+<apex:component controller="VFComponentAccountName" access="global">
+<apex:attribute name="AccountString" description="This is the Contact." type="String" assignTo="{!thisAccountString}"/>
+
+
+    {!ThisAccount}
+
+</apex:component>
