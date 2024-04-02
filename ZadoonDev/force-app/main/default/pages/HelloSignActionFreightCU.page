@@ -1,2 +1,0 @@
-<apex:page standardController="abc__c" 
-extensions="HelloSign.HSignActionExtension" action="{!action}"> </apex:page>
