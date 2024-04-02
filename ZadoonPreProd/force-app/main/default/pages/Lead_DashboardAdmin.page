@@ -1,6 +1,0 @@
-<apex:page >
-  <script>
-                // JavaScript code to redirect to a new page
-                window.location.href = 'https://prod-useast-b.online.tableau.com/t/zadoon/views/Actionabledashboard/Dashboard1?%3Aembed=y&%3Atoolbar=n#5';
-            </script>
-</apex:page>
