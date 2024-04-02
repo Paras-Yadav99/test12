@@ -1,0 +1,14 @@
+<template>
+	<lightning-card icon-name="custom:custom18" title="Unit Verification Details">
+		
+		<lightning-spinner alternative-text="Loading" size="large" if:true={showSpinner}>
+		</lightning-spinner>
+		<div style="height: 258px" calss="slds-box--border">
+		<template if:true={data}>
+			<lightning-datatable key-field="id" data={data} columns={columns} onsave={handleSave}
+				draft-values={draftValues} hide-checkbox-column show-row-number-column="false" editable
+				class=" wrapped-header-datatable slds-table--col-bordered"></lightning-datatable>
+		</template>
+		</div>
+	</lightning-card>
+</template>

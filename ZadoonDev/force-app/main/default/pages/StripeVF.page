@@ -1,0 +1,40 @@
+<apex:page applyBodyTag="false" applyHtmlTag="false" showHeader="false" sidebar="false" standardStylesheets="false" lightningStyleSheets="true">
+    <html>
+    <head>
+        <script type="text/javascript" src="//js.stripe.com/v3/"></script>
+        <apex:slds />
+    </head>
+    <body>
+        <script>
+            window.onload = onLoad;
+            async function onLoad() {
+
+                const cardWrapper = document.querySelector("div.cardWrapper");
+                const button = document.querySelector("button");
+                const stripe = await Stripe('pk_test_51LpFuAFp9GlxkKZOMLr7cIWqPlFGxpPgSGTuya7ijaJdSP7mC7ObDhyDm66W8ia2Q5JT5xpdVtWsMRXJIHjghQne00sWTlbjey');
+                //const elements = stripe.elements();
+                //this.cardElement = elements.create("card", {});
+                //this.cardElement.mount(cardWrapper);
+                button.addEventListener('click', async () => {
+                    
+               		const payload = await stripe.createToken('bank_account', {
+    				country: 'US',
+    				currency: 'usd',
+    				routing_number: '110000000',
+   					account_number: '000123456789',
+   					account_holder_name: 'Jenny Rosen',
+					account_holder_type: 'individual',
+  					});
+                 console.log('[PaymentMethod]', payload);
+                }, false);
+            }
+        </script>
+        <div class="slds-scope">
+            <div class="slds-p-around_medium">
+                <div class="cardWrapper"></div>
+            </div>
+            <button class="slds-button slds-button_brand">Pay</button>
+        </div>
+    </body>
+    </html>
+</apex:page>

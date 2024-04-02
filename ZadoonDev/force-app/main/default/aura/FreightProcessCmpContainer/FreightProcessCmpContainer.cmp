@@ -1,0 +1,20 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" access="global">
+    <aura:attribute name="recordId" type="Id" />
+
+    <div>
+        <ui:scrollerWrapper class="sWrapTest">
+            <c:freightProcessCmp recordId="{!v.recordId}" onclose="{!c.closeQA}" />
+        </ui:scrollerWrapper>
+    </div>
+
+    <aura:html tag="style">
+        .slds-modal__container {
+            width: 100% !important;
+            max-width: 65rem !important;
+            min-height: calc(100vh - 100px) !important; 
+            overflow-y: auto !important;
+        }
+    </aura:html>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+</aura:component>

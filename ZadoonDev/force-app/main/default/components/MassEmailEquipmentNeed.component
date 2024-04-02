@@ -1,0 +1,7 @@
+<apex:component controller="thisMassEmailEquipmentNeed" access="global">
+<apex:attribute name="EquipmentID" description="This is the Equipment Id." type="Id" assignTo="{!thisEquipment}"/>
+
+    <apex:repeat value="{!thisEquipmentZids}" var="zid">
+{!zid.Model__c} </apex:repeat>
+
+</apex:component>

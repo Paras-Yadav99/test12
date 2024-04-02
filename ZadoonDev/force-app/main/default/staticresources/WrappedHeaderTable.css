@@ -1,0 +1,95 @@
+.wrapped-header-datatable .slds-table .slds-th__action .slds-truncate{
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: unset;
+    white-space: pre-line;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+.wrapped-header-datatable .slds-table .slds-th__action {
+    height: 5rem;
+    border-bottom: 1px solid rgb(206 206 206);
+}
+
+.wrapped-header-datatable .slds-table .slds-line-height_reset{
+    height: 3rem;
+}
+
+
+.wrapped-header-datatable .slds-table .slds-th__action {
+    justify-content: center;
+}
+.wrapped-header-datatable .slds-grid_align-spread, .wrapped-header-datatable .slds-grid_align-end {
+    justify-content: center;
+}
+
+.wrapped-header-datatable .slds-form-element__control{
+	padding-left: 7% !important;
+}
+
+.DropBox_week .slds-form-element__control{
+	padding-left: unset;
+	clear: none;
+	text-align: left;
+}
+
+.DropBox_week .slds-dropdown_fluid {
+	min-width: max-content;
+}
+
+.wrapped-header-datatable tr:last-child {
+    font-weight: bold !important;
+}
+
+.DropBox_week label.slds-form-element__label{
+	font-weight: bold !important;
+}
+
+.DateField{
+    text-align: center;
+}
+
+table > tbody > tr > th.vertical-padding {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-right: 100%;
+  float: left
+}
+
+.Bold_Font{
+	font-weight :bold;
+}
+
+.Set_Row_Height{
+height: 25px;
+}
+.Wrapped_Header_align_Left .slds-table .slds-th__action .slds-truncate{
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: unset;
+    white-space: pre-line;
+	text-align: center;
+    /*  uncomment this if you want break the words further */
+    /* word-wrap: break-word;*/
+
+}
+
+.Wrapped_Header_align_Left .slds-table .slds-th__action {
+    height: 5rem;
+    border-bottom: 1px solid rgb(206 206 206);
+}
+
+.Wrapped_Header_align_Left .slds-table .slds-line-height_reset{
+    height: 3rem;
+}
+.Wrapped_Header_align_Left  tr:last-child {
+    font-weight: bold !important;
+}
+.Wrapped_Header_align_Left .slds-table .slds-th__action {
+    justify-content: center;
+}
+table > tbody > tr > td.vertical-padding_align_Left {
+  padding-right: 100%;
+  float: left;
+}

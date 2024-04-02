@@ -1,0 +1,20 @@
+<apex:page standardController="Equipment__c">
+    <apex:pageBlock >
+    <apex:pageBlockSection title="Iron Demand Information">
+    
+    <apex:detail relatedList="true"></apex:detail>
+        <apex:pageblock id="CustomList" title="Related Opportunities"  >
+       <apex:pageBlockTable value="{!Equipment__c}" var="ID">
+        <apex:column value="{!ID}"/>
+
+        
+         
+
+   </apex:pageBlockTable>
+ </apex:pageblock>
+    
+
+</apex:pageBlockSection>
+    </apex:pageBlock>
+   
+</apex:page>

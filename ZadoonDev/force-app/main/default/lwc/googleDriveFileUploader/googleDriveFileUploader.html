@@ -1,0 +1,30 @@
+<template>
+    <lightning-card title="File Upload" icon-name="utility:upload">
+      <div class="slds-m-around_medium">
+        <!-- File Upload Component -->
+        <div class="slds-m-top_large">
+          <label class="custom-file-upload">
+            <input class="input input-file document" required type="file" onchange={fileHandler} accept={acceptedFormats} />
+          </label>
+        </div>
+        <!-- Display uploaded file name -->
+        <div class="slds-text-align_left slds-m-top_small">
+          <p style="font-size: 0.8rem; font-weight:normal; font-style:italic;color: navy;">{fileName}</p>
+        </div>
+        <!-- Error message display section -->
+        <template if:true={errorMessage}>
+          <div class="slds-text-align_left slds-m-top_small">
+            <p style="font-size: 0.8rem; font-weight:normal; font-style:italic;color: red;">{errorMessage}</p>
+          </div>
+        </template>
+        <!-- File upload requirements section -->
+        <div class="slds-m-top_small">
+          <small>Upload only zip file or pdf (less than 5MB) containing all the above documents</small>
+        </div>
+        <!-- Submit Button -->
+        <div class="slds-m-top_medium">
+          <lightning-button label="Submit" variant="brand" onclick={processSelectedFile} disabled={isSubmitDisabled}></lightning-button>
+        </div>
+      </div>
+    </lightning-card>
+  </template>

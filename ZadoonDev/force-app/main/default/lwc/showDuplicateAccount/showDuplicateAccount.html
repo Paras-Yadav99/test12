@@ -1,0 +1,34 @@
+<template>
+	<lightning-card title={title} icon-name="standard:opportunity">
+
+		<lightning-spinner alternative-text="Loading" size="large" if:true={showSpinner}>
+		</lightning-spinner>
+		<template if:true={isData}>
+			<div class="slds-p-bottom_small">
+
+
+				<div class="slds-p-top_small ,slds-p-bottom_medium">
+					<lightning-datatable key-field="id" columns={columns} data={lstRecords} hide-checkbox-column="true"
+						show-row-number-column="true">
+					</lightning-datatable>
+					<div class="slds-p-around--medium ">
+
+						<lightning-button if:true={isShowMore} variant="brand-outline" label="ShowMore"
+							title="ShowMore" onclick={handleWonOppShowMore} class="slds-align_absolute-center">
+						</lightning-button>
+						<lightning-button if:true={isShowLess} variant="brand-outline" label="ShowLess"
+							title="ShowLess" onclick={handleWonOppShowLess} class="slds-align_absolute-center">
+						</lightning-button>
+					</div>
+				</div>
+			</div>
+		</template>
+		<template if:false={isData}>
+
+			 <div class="slds-align--absolute-center"> <b>No Data Found(s).</b></div>
+
+		</template>
+
+
+	</lightning-card>
+</template>

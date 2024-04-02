@@ -1,0 +1,10 @@
+<apex:page sidebar="false">
+    <apex:slds />
+    <div style="text-align:center;font-size: 18px; color: red;" >
+        <p>
+          <apex:outputText value="{!$Label.Unit_Create_Error}"  escape="false"/>
+
+        </p>
+    </div>
+    
+</apex:page>
