@@ -1,0 +1,62 @@
+<apex:component controller="AdhocEmailUnitController" access="global">
+    <apex:variable value="{!0}" var="rowNum"/>
+    <p>The {!IF(AND(sendUnitList!=null,sendUnitList.size>1),'machines','machine')} below seems to fit the criteria that you were looking for. Feel free to call, email, or text back with any questions. If your needs or criteria have changed, please reply here and let us know!.</p>
+    <apex:outputPanel rendered="{!if(AND(sendUnitList!=null,sendUnitList.size>5), true ,false)}">
+        <table border="2" cellspacing="2" style="font-family: arial, sans-serif;border-collapse: collapse;width: 100%;">
+            <thead>
+                <tr style="border: none;text-align: left;background-color:#ff8c00; white-space: nowrap;" height="25">
+                     <th>SR No.</th>
+                    <th>Product Name</th>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                    <th>Hours</th>
+                    <th>Location</th>
+                    <th>ZID</th>
+                    <th>Price</th>
+                    <th>Photo</th>
+                    <th>Videos</th>
+                   
+                </tr>
+            </thead>
+            <apex:repeat value="{!sendUnitList}" var="unit">
+                  <apex:variable var="rowNum" value="{!rowNum + 1}"/>
+                <tbody>
+                    <tr style="border: 2px solid #dddddd; white-space: nowrap;border-right: solid 2px #dddddd; border-left: solid 2px #dddddd;">
+                       <td style="width:20px;">{!rowNum}</td>
+                       <td style="width:100px;">{!IF(NOT(ISBLANK(unit.Name)),unit.Name,'N/A')}</td>
+                       <td style="width:100px;">{!IF(NOT(ISBLANK(unit.Manufacturer__c)),unit.Manufacturer__c,'N/A')}</td>
+                       <td style="width:100px;">{!IF(NOT(ISBLANK(unit.Model__c)),unit.Model__c,'N/A')}</td>
+                       <td style="width:100px;">{!IF(NOT(ISBLANK(unit.Year__c)),unit.Year__c,'N/A')}</td>
+                       <td style="width:100px;">{!IF(NOT(ISBLANK(unit.Hour__c)), unit.Hour__c, 'N/A')}</td>
+                        <td style="width:100px;">{!IF(NOT(ISBLANK(unit.Storage_State__c )), unit.Storage_State__c, 'N/A')}</td>
+                        <td style="width:100px;">{!IF(NOT(ISBLANK(unit.ZID__c)), unit.ZID__c, 'N/A')}</td>
+                        <td style="width:100px;"><apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(NOT(ISBLANK(unit.Starting_Advertised_Retail_Price__c)), unit.Starting_Advertised_Retail_Price__c, 0)}" /></apex:outputText></td>
+                        <td style="width:100px;">{!IF(NOT(ISBLANK(unit.Number_of_Images_in_Google_Drive__c)), IF(NOT(ISBLANK(unit.Google_Drive_LInk__c)), unit.Google_Drive_LInk__c, 'Pictures currently not available'),'Pictures currently not available')}</td>
+                        <td style="width:100px;">{!IF(NOT(ISBLANK(unit.Number_of_Videos_in_Google_Drive__c)), IF(NOT(ISBLANK(unit.Google_Drive_Videos_Link__c)), unit.Google_Drive_Videos_Link__c, 'Videos currently not available'),'Videos currently not available')}</td>
+                       
+<!-- 
+                        <td style="width:100px;"> <a href="{!IF(NOT(ISBLANK(unit.Google_Drive_LInk__c)), unit.Google_Drive_LInk__c, '')}">{!IF(NOT(ISBLANK(unit.Google_Drive_LInk__c)), 'Photo Link', 'Pictures coming soon')}</a></td>
+                        <td> <a href="{!IF(NOT(ISBLANK(unit.Google_Drive_Videos_Link__c)), unit.Google_Drive_Videos_Link__c ,'')}">{!IF(NOT(ISBLANK(unit.Google_Drive_Videos_Link__c)), 'video Link' ,' Videos currently not available')} </a></td>
+                    -->
+                       </tr>
+                </tbody>
+            </apex:repeat>
+        </table>
+    </apex:outputPanel>
+    
+    <apex:outputPanel rendered="{!if(AND(sendUnitList!=null,sendUnitList.size<=5), true ,false)}">
+        <apex:repeat value="{!sendUnitList}" var="unit">
+            
+         <ul style="list-style-type:square;"><li style="font-weight: bold; font-size: 16px;">{!IF(NOT(ISBLANK(unit.Year__c)), unit.Year__c, 'N/A')}&nbsp;{!IF(NOT(ISBLANK(unit.Manufacturer__c)),unit.Manufacturer__c,'N/A')}&nbsp;{!IF(NOT(ISBLANK(unit.Model__c)), unit.Model__c, 'N/A')} (ZID-{!IF(NOT(ISBLANK(unit.ZID__c)),unit.ZID__c, 'N/A')})</li></ul>
+            <ul style="list-style-type:none;" >
+            <!-- <li style="color:#000000;" ><b>{!IF(NOT(ISBLANK(unit.Year__c)), unit.Year__c, 'N/A')}&nbsp;{!IF(NOT(ISBLANK(unit.Manufacturer__c)),unit.Manufacturer__c,'N/A')}&nbsp; {!IF(NOT(ISBLANK(unit.Model__c)), unit.Model__c, 'N/A')}  (ZID-{!IF(NOT(ISBLANK(unit.ZID__c)),unit.ZID__c, 'N/A')})</b></li>-->
+             <li style="color:#800000; font:italic;"><apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(NOT(ISBLANK(unit.Starting_Advertised_Retail_Price__c)), unit.Starting_Advertised_Retail_Price__c, 0)}" /></apex:outputText> // {!IF(NOT(ISBLANK(unit.Hour__c)), unit.Hour__c, 'N/A')} hrs // {!IF(NOT(ISBLANK(unit.Storage_State__c)), unit.Storage_State__c, 'N/A')}</li>
+             <li style="color:#3a3b3c">{!IF(NOT(ISBLANK(unit.Old_SF_Unit_Details__c)), unit.Old_SF_Unit_Details__c, 'N/A')}</li>
+             <li style="color:#3a3b3c">   <a href="{!IF(NOT(ISBLANK(unit.Google_Drive_LInk__c)), unit.Google_Drive_LInk__c, '')}">{!IF(NOT(ISBLANK(unit.Google_Drive_LInk__c )),'click here to see photos of the '+unit.Model__c, 'Pictures coming soon')}</a></li>
+             <li style="color:#3a3b3c"><b></b> <a href="{!IF(NOT(ISBLANK(unit.Google_Drive_Videos_Link__c)), unit.Google_Drive_Videos_Link__c ,'')}">{!IF(NOT(ISBLANK(unit.Google_Drive_Videos_Link__c)), 'click here to see videos of the '+unit.Model__c ,' Videos coming soone')}</a></li>
+           </ul>
+           <hr/>
+        </apex:repeat>
+    </apex:outputPanel>
+</apex:component>

@@ -1,0 +1,27 @@
+<template>
+	<!--Lightning Card Start-->
+	<lightning-card>
+		<div  style="  height: 337px;" class="slds-scrollable">
+		<lightning-combobox label="Client Type" name="clientType"  options={clientTypeOption} onchange={handleChange}
+			dropdown-alignment="bottom-left" value={clientTValue}>
+		</lightning-combobox>
+		</div>
+		<div  slot="footer">
+
+				<lightning-button variant="brand" label="Previous" title="Previous" onclick={handlePreviousButton}
+					class="slds-m-left_x-small slds-text-align_right">
+				</lightning-button>
+
+				<lightning-button  variant="destructive" label="CLOSE" onclick={cancleEdit}
+                class="slds-m-left_x-small slds-text-align_right">
+				</lightning-button>
+
+
+				<lightning-button variant="brand" label="NEXT" onclick={handleNextClick}
+                class="slds-m-left_x-small slds-text-align_right">
+				</lightning-button>
+
+		</div>
+
+	</lightning-card>
+</template>

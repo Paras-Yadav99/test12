@@ -1,0 +1,88 @@
+<template>
+	<!--Lightning Card Start-->
+	<!--lightning-card title={title} icon-name="standard:dashboard"-->
+	<lightning-card>
+		<!--Spinner on Card-->
+		<template if:true={isLoading}>
+			<lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+		</template>
+		<!--Filter Section-->
+		<div class="slds-p-around--medium">
+			<table class="" cellspacing="0">
+				<thead>
+				</thead>
+				<tbody>
+					<tr>
+						<td style="font-weight:bold; width: 1%;padding-top: 01.8%;">
+							<lightning-button label="" onclick={hanldeRefreshClick} variant="brand"
+											icon-name="utility:refresh">
+										</lightning-button>
+						</td>
+
+						<!--PICKLIST-->
+
+						<!--Year Option-->
+						<td style="font-weight:bold; width: 16%;padding-top: 0.2%;" class="slds-p-right--x-small">
+							<lightning-combobox name="Year" label="Year" value={defaultStartYear}
+								placeholder="Select Year" options={yearOptions} onchange={captureYearActionChange}
+								style="font-weight:bold">
+							</lightning-combobox>
+						</td>
+						<!--Quarter Option-->
+
+						<td style="font-weight:bold; width: 16%;padding-top: 0.2%;" class="slds-p-right--x-small">
+							<lightning-combobox name="Quarter" label="Quarter" value={QuarterActionValue}
+								placeholder="Select Quarter" options={quarterOption}
+								onchange={captureQuarterActionChange} style="font-weight:bold">
+							</lightning-combobox>
+						</td>
+
+						<td style="width: 16%;padding-top: 01.8%;" class="slds-p-right--x-small">
+							<lightning-button variant="brand" label="APPLY" onclick={hanldeApply}>
+							</lightning-button>
+						</td>
+
+						<!--<td style="width: 16%;padding-top: 01.4%;" class="slds-p-right--x-small">
+							<lightning-button variant="brand" label="REFRESH" onclick={hanldeRefreshClick}>
+							</lightning-button>
+						</td>-->
+
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="slds-p-around--medium">
+			<!--SALES LEADER BOARD-->
+			<p><b class="slds-action-overflow--touch__footer slds-section__title">SALES LEADER BOARD</b></p>
+
+			<c-show-leader-report-data report-data={saleLeaderData} is-data={isSalesData} quarter={QuarterActionValue}>
+			</c-show-leader-report-data>
+
+
+			<!--PROCUREMENT LEADER BOARD-->
+			<p class="slds-p-top--large"><b class="slds-action-overflow--touch__footer slds-section__title">PROCUREMENT LEADER BOARD</b></p>
+			<!-- WEEK HEADER SECTION-->
+
+			<c-show-leader-report-data report-data={ProcurementLeaderData} is-data={isPrcurementData}
+				quarter={QuarterActionValue}>
+			</c-show-leader-report-data>
+
+			<!--SALES LEADER BOARD QUARTER DATA-->
+			<p class="slds-p-top--large"><b class="slds-action-overflow--touch__footer slds-section__title">SALES LEADER BOARD QUARTER DATA</b></p>
+
+			<c-show-leader-report-quarter-data report-data={saleQuarterLeaderData} is-data={isSalesQuarterData}>
+			</c-show-leader-report-quarter-data>
+
+
+			<!--PROCUREMENT LEADER BOARD QUARTER DATA-->
+			<p class="slds-p-top--large"><b class="slds-action-overflow--touch__footer slds-section__title">PROCUREMENT LEADER BOARD QUARTER DATA</b></p>
+			<!-- WEEK HEADER SECTION-->
+
+			<c-show-leader-report-quarter-data report-data={ProcurementQuarterLeaderData} is-data={isPrcurementQuarterData}>
+			</c-show-leader-report-quarter-data>
+
+		</div>
+	</lightning-card>
+</template>

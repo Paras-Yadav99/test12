@@ -1,0 +1,114 @@
+<apex:page controller="AdhocEmailer" cache="false">
+
+<apex:form >
+
+<apex:pageBlock title="Zadoon Adhoc Email Tester"></apex:pageBlock><br />
+
+<h2>Specify Equipment to Send</h2><br />
+
+<h3>Enter Zid</h3><br />Email Template: [ZID] you may be interested in to:<br />
+ZID-<apex:inputText value="{!Zid}" id="Zid" /> <br /><br />
+<hr />
+<h3> Or Select Equipment</h3><br />Email Template: [equipment]s you may be interested in to:<br/>
+<apex:selectList value="{!Equipment}" size="1">
+    <apex:selectOptions value="{!ListOfEquipment}"/>
+</apex:selectList><br /><br />
+<hr />
+<h3> Or Select Equipment Need</h3><br />Email Template: [manufacturer__c] [equipment] Need. to:<br/>
+<apex:selectList value="{!EquipmentNeed}" size="1">
+    <apex:selectOptions value="{!ListOfEquipmentNeed}"/>
+</apex:selectList><br /><br />
+
+<h3>Equipment Need Custom Subject</h3><br />Enter custom subject line<br />
+<apex:inputText value="{!MassEmailEquipmentNeedTitleHidden}" id="MassEmailEquipmentNeedTitleHidden" /> <br /><br />
+
+<h3>Equipment Need Custom Body</h3><br />Enter custom body<br />
+<apex:inputTextarea value="{!MassEmailEquipmentNeedBodyHidden}" id="MassEmailEquipmentNeedBodyHidden" /> <br /><br />
+
+<!--  last inputs displayed --> 
+
+<apex:selectList value="{!Manufacturer}" size="1" rendered="false">
+    <apex:selectOptions value="{!ListOfManufacturers}"/>
+</apex:selectList>
+
+<apex:selectList value="{!Category}" size="1" rendered="false">
+    <apex:selectOptions value="{!ListOfCategories}"/>
+</apex:selectList>
+
+<apex:selectList value="{!Industry}" size="1" rendered="false">
+    <apex:selectOptions value="{!ListOfIndustries}"/>
+</apex:selectList><br />
+
+<hr /><br /><br />
+
+<h2>Specify Recipients</h2><br /><br />
+
+<h3>Filter by Client Type</h3><br />
+Client Type:<apex:selectList value="{!ClientTypes}" size="1" multiselect="false">
+    <apex:selectOptions value="{!ListOfClientTypes}"/>
+</apex:selectList><br /><br />
+
+<h3>Filter by Account Region</h3><br />
+<apex:selectList value="{!Regions}" size="10" multiselect="true">
+    <apex:selectOptions value="{!ListOfRegions}"/>
+</apex:selectList><br /><br />
+
+<h3>Filter by Account Dealer</h3><br />
+<apex:selectList value="{!AccountDealer}" size="10" multiselect="true">
+    <apex:selectOptions value="{!ListOfAccountDealers}"/>
+</apex:selectList><br /><br />
+
+<h3>Filter by Account Category of Equipment they Sell</h3><br />
+
+<apex:selectList value="{!AccountCategory}" size="10"  multiselect="true">
+    <apex:selectOptions value="{!ListOfAccountCategories}"/>
+</apex:selectList><br /><br />
+
+<h3>Filter by Account Industries they Service</h3><br />
+<apex:selectList value="{!AccountIndustry}" size="10" multiselect="true">
+    <apex:selectOptions value="{!ListOfAccountIndustries}"/>
+</apex:selectList><br /><br />
+
+<apex:actionFunction name="doInit" action="{!GetRecordPage}" reRender="theForm"/>
+
+<apex:commandButton value="Generate Batch" onclick="doInit(); return false;" id="bor">
+
+</apex:commandButton>
+
+<apex:commandButton value="Refresh" action="{!fetchRecords}" rerender="theForm" />
+<apex:pageBlock id="theForm" >
+
+
+<div style="float: right;"><apex:commandButton value="Send Email" action="{!SendEmail}" onclick="alert('Emails Sending')" id="bor2" /></div>
+
+Client Types: {!ClientTypes}<br />
+Regions: {!Regions} <br />
+Account Dealer: {!AccountDealer}<br />
+Account Category: {!AccountCategory}<br />
+Account Industry: {!AccountIndustry} <br />
+
+
+
+<apex:variable value="{!1}" var="count"/>
+<apex:pageblocktable rendered="{!showRecords}" value="{!MassEmailBatch}" var="fetch" rows="10">
+    <apex:column headerValue="Count">    
+        {!count}
+         <apex:variable var="count" value="{!count+ 1}"/>
+    </apex:column>
+    <apex:column headerValue="Name">
+        <apex:outputText value="{!fetch.Name}" escape="false" />
+    </apex:column>
+    <apex:column headerValue="Time Stamp">
+        <apex:outputText value="{!fetch.CreatedDate}" escape="false" />
+    </apex:column>
+        
+    <apex:column headerValue="Payload">
+      <apex:outputText value="{!fetch.Batch_Payload__c}" escape="false" />
+    </apex:column>
+    
+   
+    </apex:pageblocktable>   
+    </apex:pageBlock>
+
+</apex:form>
+</apex:page>

@@ -1,0 +1,171 @@
+<template>
+	<lightning-card title="">
+		<div class="spinner-container" if:true={loader}>
+
+			<lightning-spinner alternative-text="Loading" size="large" class="slds-is-fixed">
+
+			</lightning-spinner>
+
+		</div>
+		<template if:false={showFormPage}>
+			<template if:true={isData}>
+				<div class="container slds-theme_default">
+					<div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-text-heading_large "
+						style="color:#710f12;;margin-bottom:20px">
+						<img src={zadoonLogo}>
+                </div>
+					</div>
+
+
+					<div class="slds-grid slds-wrap " style="margin-bottom:25px">
+						<div class="slds-col slds-large-size_12-of-12 ">
+							<div class="slds-grid slds-wrap headerTopCss">
+								<div class="slds-col slds-size_1-of-1 slds-p-around--medium headerBorder">
+									Freight Information
+								</div>
+
+							</div>
+							<div class="slds-grid slds-wrap ">
+								<div class="slds-col slds-size_6-of-12 slds-p-around--medium headerBorder">
+									Unit Name
+								</div>
+
+								<template if:true={viewMode1}>
+									<div class="slds-col slds-size_6-of-12 slds-p-around_x-small headerBorder">
+										<lightning-input type="text" name="" label="" disabled
+											value={freightRecord.unitName} style="font-weight:bold">
+										</lightning-input>
+									</div>
+
+								</template>
+							</div>
+							<!--<div class="slds-grid slds-wrap ">
+								<div class="slds-col slds-size_6-of-12 slds-p-around--medium headerBorder">
+									Link to Photos
+								</div>
+								
+								<template if:true={viewMode1}>
+									<div class="slds-col slds-size_6-of-12 slds-p-around_x-small headerBorder">
+										<lightning-input type="text" name="" label="" disabled
+											value={freightRecord.photoLink} style="font-weight:bold">
+										</lightning-input>
+									</div>
+
+								</template>
+							</div>-->
+
+
+							<div class="slds-grid slds-wrap ">
+								<div class="slds-col slds-size_6-of-12 slds-p-around--medium headerBorder">
+									Unit Location
+								</div>
+
+								<template if:true={viewMode1}>
+									<div class="slds-col slds-size_6-of-12 slds-p-around_x-small headerBorder">
+										<lightning-input type="text" name="" label="" disabled
+											value={freightRecord.unitLocation} style="font-weight:bold">
+										</lightning-input>
+									</div>
+
+								</template>
+							</div>
+
+							<div class="slds-grid slds-wrap ">
+								<div class="slds-col slds-size_6-of-12 slds-p-around--medium headerBorder">
+									Destiantion Location
+								</div>
+
+								<template if:true={viewMode1}>
+									<div class="slds-col slds-size_6-of-12 slds-p-around_x-small headerBorder">
+										<lightning-input type="text" name="" label="" disabled
+											value={freightRecord.destiationLocation} style="font-weight:bold">
+										</lightning-input>
+									</div>
+
+								</template>
+							</div>
+
+
+							<div class="slds-grid slds-wrap ">
+								<div class="slds-col slds-size_6-of-12 slds-p-around--medium headerBorder"
+									style="height:90.5px">
+									Quote Amount
+								</div>
+
+								<template if:true={viewMode2}>
+									<div class="slds-col slds-size_6-of-12 slds-p-around_x-small headerBorder"
+										style="height:90px">
+										<lightning-input type="number" name="quoteAmount" label="" required
+											value={freightRecord.quoteAmount} onchange={handleValueChange}
+											style="font-weight:bold">
+										</lightning-input>
+									</div>
+
+								</template>
+							</div>
+							<template if:true={viewMode3}>
+								<div class="slds-grid slds-wrap ">
+									<div class="slds-col slds-size_6-of-12 slds-p-around--medium headerBorder">
+										Pickup Date
+									</div>
+
+									<template if:true={viewMode2}>
+										<div class="slds-col slds-size_6-of-12 slds-p-around_x-small headerBorder">
+											<lightning-input type="date" name="pickUpDate" label=""
+												value={freightRecord.pickUpDate} onchange={handleDateValueChange}
+												style="font-weight:bold">
+											</lightning-input>
+										</div>
+
+									</template>
+								</div>
+							</template>
+
+						</div>
+					</div>
+					<div class="text-cls">
+						<b>* {bottomMessage}</b>
+					</div>
+					<template if:false={showFormPage}>
+						<div class=" slds-grid slds-wrap slds-align_absolute-center">
+							<button label="Submit" onclick={handleSubmit} disabled={disableSubmit}
+                                    class="slds-button slds-p-left_small slds-p-right_small slds-float_center submit-button">
+                                             Submit
+                            </button>
+						</div>
+					</template>
+			</template>
+
+		</template>
+
+
+		<template if:true={showFormPage}>
+
+			<div class="container slds-theme_default">
+				<div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-text-heading_large "
+					style="color:#710f12;;margin-bottom:20px">
+					<img src={zadoonLogo}>
+                </div>
+					<div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-text-heading_large headingClass "
+						style="color:#710f12;margin-bottom:25px">
+						{finalMessage}
+					</div>
+				</div>
+
+
+		</template>
+		<template if:false={isData}>
+			<div class="container slds-theme_default">
+				<div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-text-heading_large "
+					style="color:#710f12;;margin-bottom:20px">
+					<img src={zadoonLogo}>
+                </div>
+					<div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-text-heading_large headingClass "
+						style="color:#710f12;margin-bottom:25px">
+						{finalMessage}
+					</div>
+				</div>
+		</template>
+	</lightning-card>
+
+</template>

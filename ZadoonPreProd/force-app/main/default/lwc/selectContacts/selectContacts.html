@@ -1,0 +1,138 @@
+<template>
+    <div class="spinner">
+        <template if:true={isLoading}>
+             <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+             </lightning-spinner>
+        </template>
+    </div>
+    <lightning-card >
+        <template if:true={pagedData}>
+            <div class="slds-m-top_small slds-m-bottom_medium slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-2 ">
+                    <template if:true={clientTypePicklistValues.data}>
+                    <lightning-combobox
+                                name="clientType"
+                                value={accountClientTypes}
+                                placeholder="Select client type"
+                                options= {clientTypePicklistValues.data.values}
+                                onchange={updatePagedData}
+                            ></lightning-combobox>
+                    </template>
+                </div>
+                <div class="slds-col slds-size_1-of-2 ">
+                    <template if:true={levelPicklistValues.data}>
+                    <lightning-combobox
+                                name="billingState"
+                                value={accountBillingState}
+                                placeholder="Select account billing state"
+                                options= {levelPicklistValues.data.values}
+                                onchange={updatePagedData}
+                                
+                            ></lightning-combobox>
+                    </template>
+                    </div>    
+            </div>
+            <div class="slds-m-top_small slds-m-bottom_medium slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-2 ">
+                    <!--lightning-button label="Send Email" title="Send Email" onclick={handleSendEmail} class="slds-m-left_x-small"></lightning-button-->
+                    <div class=" slds-m-left_small slds-text-color_error slds-text-heading_small">{rowCount} Contact(s) Selected</div>
+                </div>
+                <div class="slds-col slds-size_1-of-2 ">
+                    <lightning-input variant="label-hidden" label="Search Contact" placeholder="Search Contacts" 
+                    type="text" value={searchString} onchange={updatePagedData} name="searchText" ></lightning-input>
+                </div>    
+            </div>
+            <div class="container slds-scrollable" style="height:20rem;">
+                <lightning-datatable
+                    key-field="Id"
+                    columns={columns}
+                    data={pagedData}
+                    default-sort-direction={defaultSortDirection}
+                    sorted-direction={sortDirection}
+                    sorted-by={sortedBy}
+                    onsort={doSorting}
+                    selected-rows={preSelectedRows}
+                    onrowselection={updateSelectedRows}
+                    >
+                </lightning-datatable>
+            </div>
+
+            <template if:true={loading}>
+                <lightning-dynamic-icon
+                    type="ellie"
+                    alternative-text="Data is loading."
+                    option="3">
+                </lightning-dynamic-icon>Loading...
+            </template>
+
+        
+            <!--Navigation controls-->
+           <div class="modal-footer slds-modal__footer">
+            
+                <div class="slds-var-p-top_small slds-align_absolute-center">
+                    <lightning-combobox
+                        name="progress"
+                        label="DisplayAmount"
+                        variant="label-hidden"
+                        dropdown-alignment="bottom-left"
+                        value={displayAmmount}
+                        placeholder={displayAmmount}
+                        options={options}
+                        onchange={changePageSize}>
+                    </lightning-combobox>
+    
+                    <!--first button-->
+                    <lightning-button 
+                        name="buttonFirst" 
+                        label="First" 
+                        title="First"
+                        onclick={handleButtonFirst}  
+                        class="slds-var-m-left_x-small" 
+                        disabled={disabledPreviousButton}>
+                    </lightning-button>
+    
+                    <!--Previous button-->
+                    <lightning-button 
+                        name="buttonBackwards" 
+                        label="" 
+                        title="" 
+                        icon-name="utility:back" 
+                        onclick={handleButtonPrevious}  
+                        class="slds-var-m-left_x-small" 
+                        disabled={disabledPreviousButton}>
+                    </lightning-button>
+    
+                    <!--Current Status-->
+                    &nbsp;&nbsp;Showing {currentPage} of {maxPages} results.
+    
+                    <!--Next button-->
+                    <lightning-button 
+                        name="buttonForwards" 
+                        label="" 
+                        title="" 
+                        icon-name="utility:forward" 
+                        onclick={handleButtonNext} 
+                        class="slds-var-m-left_x-small" 
+                        disabled={disabledNextButton}>
+                    </lightning-button>
+    
+                    <!--Last button-->
+                    <lightning-button 
+                        name="buttonFirst" 
+                        label="Last" 
+                        title="Last"
+                        onclick={handleButtonLast}  
+                        class="slds-var-m-left_x-small" 
+                        disabled={disabledNextButton}>
+                    </lightning-button>
+                </div>
+            </div>
+        </template>
+    </lightning-card>
+
+    <template if:false={pagedData}>
+
+        <div>No Contacts To Send Email to display</div>
+
+    </template>
+</template>

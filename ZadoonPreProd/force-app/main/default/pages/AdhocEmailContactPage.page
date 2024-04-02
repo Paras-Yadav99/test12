@@ -1,0 +1,399 @@
+<apex:page standardController="Contact" extensions="AdhocEmailContactController" recordSetVar="contacts" sidebar="false" docType="html-5.0">
+    <style>
+        .dataTables_length{
+        margin-left: 20px;
+        margin-top: 8px;
+        }
+        
+        .dataTables_info {
+        width: auto;
+        margin-left: 25%;
+        }
+        
+        .dataTables_filter {
+        margin-top: -30px;
+        margin-right: 2%;
+        }
+        
+    </style>
+    
+    <div class="slds-scope">
+        <apex:slds />
+        <div class="{!if(SelectedConCount==0, 'slds-hide', 'slds-show')}">
+            <apex:form id="frm">
+                <apex:includeScript value="https://code.jquery.com/jquery-3.5.1.js"/>
+                <apex:includeScript value="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"/>
+                <apex:includeScript value="https://www.datatables.net/release-datatables/extensions/FixedColumns/js/dataTables.fixedColumns.js"/>
+                <apex:stylesheet value="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css"/>
+                <apex:stylesheet value="https://www.datatables.net/release-datatables/extensions/FixedColumns/css/dataTables.fixedColumns.css"/>
+                
+                <div class="slds-page-header slds-page-header_record-home {!if(contains(error,'successfully'),'slds-hide','slds-show')}">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-product">
+                                <svg class="slds-icon slds-page-header__icon" aria-hidden="true">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" 
+                                         xlink:href="/apexpages/slds/latest/assets/icons/standard-sprite/svg/symbols.svg#product">
+                                    </use>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="slds-page-header__name-title">
+                            <h1>
+                                <span>Units</span>
+                                <span class="slds-page-header__title slds-truncate" title="All Contacts">All Units</span>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div role="alert" class="slds-text-heading_small slds-notify slds-notify_alert slds-m-right_small slds-no-flex slds-m-top_x-small slds-theme_alert-texture {!if(len(error)>0,'slds-show','slds-hide')} {!if(contains(error,'successfully'),'slds-theme_success','slds-theme_error')}">
+                    <span class="slds-assistive-text">error</span>
+                    <apex:outputText escape="false" value="{!error}" /><br/>
+                </div>
+                <apex:commandButton value="Go back" onclick="window.history.back(); return false;" styleClass="slds-button slds-button_brand slds-align_absolute-center slds-m-top_x-small" rendered="{!if(contains(error,'successfully'),true,false)}"/>
+                
+                <apex:actionStatus id="loadingStatus" startText="Requesting...">
+                    <apex:facet name="start">
+                        <div class="slds-spinner_container" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.75; z-index:1000;" >
+                            <div class="slds-spinner--brand slds-spinner slds-spinner--medium" role="alert">
+                                <span class="slds-assistive-text">Loading</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionStatus>
+                
+                <div class ="{!if(contains(error,'successfully'),'slds-hide','slds-show')}">
+                    <div class="slds-form-element demo-only demo-only--sizing slds-grid slds-wrap">
+                        <div class="slds-size_1-of-4 slds-col--padded">
+                            <label class="slds-form-element__label" for="form-element-01"><abbr class="slds-required" title="required">* </abbr>{!$ObjectType.Product2.fields.Category__c.label}</label>
+                            <div class="slds-form-element__control" id="categDivId">
+                                <select id="category" class="slds-select slds-select_container slds-m-bottom_xx-small">
+                                    <apex:repeat value="{!categoryList}" var="categy" >
+                                        <option value="{!categy.value}">{!categy.label}</option>
+                                    </apex:repeat>
+                                </select>
+                                <div class="slds-form-element__help" id="error-message-unique-id"></div>
+                            </div>
+                        </div>
+                       <!-- <div class="slds-size_1-of-4 slds-col--padded ">
+                            <label class="slds-form-element__label" for="form-element-01">{!$ObjectType.Product2.fields.Year__c.label}</label>
+                            <div class="slds-form-element__control ">
+                                <input type="text" id="year" placeholder="Please Type Year…" class="slds-input" />
+                            </div>                        
+                        </div>-->
+                        <div class="slds-size_1-of-8 slds-col--padded">
+                            <label class="slds-form-element__label" for="form-element-01">Min Year</label>
+                            <div class="slds-form-element__control slds-m-right_medium">
+                                <input type="text" id="minYear" placeholder="Min Year…" class="slds-input"/>
+                            </div>                        
+                        </div>
+                        <div class="slds-size_1-of-8 slds-col--padded">
+                            <label class="slds-form-element__label" for="form-element-01">Max Year</label>
+                            <div class="slds-form-element__control slds-m-right_medium">
+                                <input type="text" id="maxYear" placeholder="Max Year…" class="slds-input"/>
+                            </div>                        
+                        </div>
+                        <div class="slds-size_1-of-4 slds-col--padded">
+                            <label class="slds-form-element__label" for="form-element-01">{!$ObjectType.Product2.fields.Make__c.label}</label>
+                            <div class="slds-form-element__control">
+                                <input type="text" id="make" placeholder="Please Type Make…" class="slds-input"/>
+                            </div> 
+                        </div>
+                        <div class="slds-size_1-of-4 slds-col--padded">
+                            <label class="slds-form-element__label" for="form-element-01">{!$ObjectType.Product2.fields.Model__c.label}</label>
+                            <div class="slds-form-element__control">
+                                <input type="text" id="model" placeholder="Please Type Model…" class="slds-input"/>
+                            </div>                        
+                        </div>
+                        <div class="slds-size_1-of-8 slds-col--padded">
+                            <label class="slds-form-element__label" for="form-element-01">Min Weight</label>
+                            <div class="slds-form-element__control slds-m-right_medium">
+                                <input type="number" id="minWeight" placeholder="Min Weight…" class="slds-input"/>
+                            </div>                        
+                        </div>
+                        <div class="slds-size_1-of-8 slds-col--padded">
+                            <label class="slds-form-element__label" for="form-element-01">Max Weight</label>
+                            <div class="slds-form-element__control slds-m-right_medium">
+                                <input type="number" id="maxWeight" placeholder="Max Weight…" class="slds-input"/>
+                            </div>                        
+                        </div>
+                        <div class="slds-size_1-of-8 slds-col--padded">
+                            <label class="slds-form-element__label" for="form-element-01">Min Hour</label>
+                            <div class="slds-form-element__control slds-m-right_medium">
+                                <input type="number" id="minHour" placeholder="Min Hour…" class="slds-input"/>
+                            </div>                        
+                        </div>
+                        <div class="slds-size_1-of-8 slds-col--padded">
+                            <label class="slds-form-element__label" for="form-element-01">Max Hour</label>
+                            <div class="slds-form-element__control slds-m-right_medium">
+                                <input type="number" id="maxHour" placeholder="Max Hour…" class="slds-input"/>
+                            </div>                        
+                        </div>
+                        <div class="slds-size_1-of-8 slds-col--padded">
+                            <label class="slds-form-element__label" for="form-element-01">Min Price</label>
+                            <div class="slds-form-element__control slds-m-right_medium">
+                                <input type="number" id="minPrice" placeholder="Min Price…" class="slds-input"/>
+                            </div>                        
+                        </div>
+                        <div class="slds-size_1-of-8 slds-col--padded">
+                            <label class="slds-form-element__label" for="form-element-01">Max Price</label>
+                            <div class="slds-form-element__control slds-m-right_medium">
+                                <input type="number" id="maxPrice" placeholder="Max Price…" class="slds-input"/>
+                            </div>                        
+                        </div>
+                        <div class="slds-size_1-of-4 slds-col--padded">
+                            <label class="slds-form-element__label" for="form-element-01">{!$ObjectType.Product2.fields.Name.label}</label>
+                            <div class="slds-form-element__control slds-m-right_medium">
+                                <input type="text" id="unitCode" placeholder="Please Type Unit Code…" class="slds-input"/>
+                            </div>                        
+                        </div>
+                    </div>
+                    
+                    <div align="center" draggable="false" class="slds-m-bottom_small">
+                        <apex:commandButton onclick="submitSearch();return false;" value="Search" styleClass=" slds-button slds-button--brand slds-m-top_x-small"/>
+                        <apex:commandButton onclick="window.history.back(); return false;" value="Go Back" styleClass="slds-m-left_small slds-button slds-button--neutral slds-m-top_x-small"/>
+                    </div>
+                </div>
+            </apex:form>
+            
+            <div role="alert" class="recCount slds-m-left_medium slds-text-color_destructive" style="font-weight: bold; font-size: 15px;">
+                <span class="slds-assistive-text "></span>
+            </div>
+            <apex:form id="frm1">
+                <div class ="{!if(contains(error,'successfully'),'slds-hide','slds-show')}">
+                    <apex:pageblock id="pdId">
+                        <apex:actionFunction name="sendEmail" action="{!sendEmail}" reRender="frm,frm1" status="loadingStatus" />
+                        <apex:actionFunction name="submitActionFunction" action="{!search}" reRender="pdId" status="loadingStatus" oncomplete="searchComplete();return false;">
+                            <apex:param name="category" assignTo="{!selectedCategory}" value="" />
+                            <apex:param name="minYear" assignTo="{!minYear}" value="" />
+                            <apex:param name="maxYear" assignTo="{!maxYear}" value="" />
+                            <apex:param name="make" assignTo="{!make}" value="" />
+                            <apex:param name="model" assignTo="{!model}" value="" />
+                            <apex:param name="minWeight" assignTo="{!minWeight}" value="" />
+                            <apex:param name="maxWeight" assignTo="{!maxWeight}" value="" />
+                            <apex:param name="minHour" assignTo="{!minHour}" value="" />
+                            <apex:param name="maxHour" assignTo="{!maxHour}" value="" />
+                            <apex:param name="minPrice" assignTo="{!minPrice}" value="" />
+                            <apex:param name="maxPrice" assignTo="{!maxPrice}" value="" />
+                            <apex:param name="unitCode" assignTo="{!unitCode}" value="" />
+                        </apex:actionFunction>
+                        
+                        
+                        <div class="{!if(wrapperRecordList.size>0,'slds-show','slds-hide')}">
+                            <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table_stacked-horizontal" id="OppTable">
+                                <button class="slds-button slds-button--brand slds-m-left_xx-small slds-m-bottom_xx-small" onclick="selectAll('inputId','selectAll');return false;">Select all</button>
+                                <button class="slds-button slds-button--brand slds-m-bottom_xx-small" onclick="selectAll('inputId','deSelectAll');return false;" id="deSelectBtn">Deselect all</button>
+                                <button class="slds-button slds-button--brand slds-m-left_x-small slds-m-bottom_xx-small" onclick="validateSendEmail();return false;" id="sendBtnId">Send Email</button>
+                                <thead>
+                                    <tr class="slds-text-title--caps">
+                                        <th scope="col" style="background-color: #ff8c00;" height="30">
+                                            <div class="slds-truncate" title="Select">Select</div>
+                                        </th>
+                                        <apex:repeat value="{!$ObjectType.Product2.FieldSets.Unit_adhoc_Email_Fields}" var="f">
+                                            <th scope="col" style="background-color: #ff8c00;" height="30">
+                                                <div class="slds-truncate" title="{!f.label}">{!f.label}</div>
+                                            </th>
+                                        </apex:repeat>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <apex:repeat value="{!wrapperRecordList}" var="wrap" >
+                                        <tr>
+                                            <th scope="row" data-label="Select">
+                                                <div class="slds-form-element">
+                                                    <div class="slds-form-element__control">
+                                                        <span class="slds-checkbox">
+                                                            <apex:inputCheckbox value="{!wrap.isSelected}" id="inputId" onclick="checkedRecord(this)" styleClass="singleClass"/>
+                                                            <apex:outputLabel for="inputId" styleClass="slds-checkbox__label">
+                                                                <span class="slds-checkbox--faux"></span>
+                                                            </apex:outputLabel>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            
+                                            <apex:repeat value="{!$ObjectType.Product2.FieldSets.Unit_adhoc_Email_Fields}" var="f">
+                                                <th scope="col">
+                                                    <div class="slds-truncate" title="{!wrap.pro[f]}">{!IF(AND(f.Type != 'currency' ,f.Type != 'date',f.Type != 'double'), wrap.pro[f],'')}</div>
+                                                    <apex:outputText value="${0,number,###,###,##0.00}" rendered="{!AND(f.Type = 'currency',wrap.pro[f] != null)}">
+                                                        <apex:param value="{!wrap.pro[f]}" />
+                                                    </apex:outputText>
+                                                    <apex:outputText value="{0,date,MM/dd/yyyy}" rendered="{!AND(f.Type ='date',wrap.pro[f]!=null)}"> 
+                                                        <apex:param value="{!wrap.pro[f]}" /> 
+                                                    </apex:outputText>
+                                                    <apex:outputText value="{0, number, ###,##0}" rendered="{!AND(f.Type ='double',wrap.pro[f]!=null)}">
+                                                        <apex:param value="{!wrap.pro[f]}"/>
+                                                    </apex:outputText>
+                                                </th>
+                                            </apex:repeat>
+                                        </tr>
+                                    </apex:repeat>
+                                </tbody>
+                            </table>
+                            
+                            <div class="slds-m-top_x-small" align="center">
+                                <apex:selectList value="{!selectedPage_Size}" multiselect="false" size="1" styleClass="slds-select slds-select_container" style="width:50px;">
+                                    <apex:actionSupport event="onchange" action="{!refreshPageSize}" reRender="frm1" status="loadingStatus" oncomplete="searchComplete(); return false;"/>
+                                    <apex:selectOptions value="{!paginationSizeOptions}"/>
+                                </apex:selectList>
+                                <apex:commandButton value="First"  title="First" reRender="frm1" action="{!first}" disabled="{!NOT(hasPrevious)}" status="loadingStatus" styleClass="slds-button slds-button_neutral slds-m-left_xx-small" oncomplete="searchComplete(); return false;"/>
+                                <apex:commandButton value="Previous" title="Previous" reRender="frm1" onclick="nextJS();" action="{!previous}" disabled="{!NOT(hasPrevious)}" status="loadingStatus" styleClass="slds-button slds-button_neutral" oncomplete="searchComplete(); return false;"/>
+                                <apex:commandButton value="Next" title="Next" reRender="frm1" onclick="nextJS();" action="{!next}" disabled="{!NOT(hasNext)}" status="loadingStatus" styleClass="slds-button slds-button_neutral" oncomplete="searchComplete(); return false;"/>
+                                <apex:commandButton value="Last" title="Last" rerender="frm1" action="{!last}" disabled="{!NOT(hasNext)}" status="loadingStatus" styleClass="slds-button slds-button_neutral" oncomplete="searchComplete(); return false;"/>
+                                <apex:outputText rendered="{!IF(SelectedConCount > 0, true, false)}">
+                                    Showing {!startIndex+1} to {!IF(endIndex > noOfRecords, noOfRecords,endIndex)} of {!noOfRecords} entries
+                                </apex:outputText>
+                            </div>
+                        </div>
+                        <div id="noRecDivId" class="slds-text-align_center slds-text-color_destructive slds-text-heading_medium {!if(wrapperRecordList.size==0,'slds-show','slds-hide')}" style="font-weight: bold;">
+                            <span class="slds-assistive-text">error</span>
+                            <h2>No units found, Please enter correct details!</h2>
+                        </div>
+                        
+                    </apex:pageblock>
+                </div>
+            </apex:form>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+    
+    function searchComplete() {
+         document.getElementById('deSelectBtn').disabled=true;
+        if(totalSelected == 0) {
+            document.getElementById('sendBtnId').disabled=true;
+        }
+        dataTable('[id$="OppTable"]');
+    }
+    
+    // jquery searching/sorting 
+    j$ = jQuery.noConflict();
+    j$(document).ready(function() {
+        document.getElementById('deSelectBtn').disabled=true;
+        document.getElementById('sendBtnId').disabled=true;
+        dataTable('[id$="OppTable"]');
+    });
+    
+    function dataTable(dataTable) {
+        if('{!SelectedConCount}' == 0){
+            alert('Either you haven\'t selected any contact or contact(s) email is missing!');
+            window.history.back();
+            return;
+        }
+        j$(dataTable).DataTable({
+            "language": {
+                searchPlaceholder: "Search Units.....",
+                search: "",
+                infoFiltered: "",
+                zeroRecords: "No Unit(s) found!",
+            },
+            "searching": true,
+            "ScrollY": "300",
+            "ScrollX": true,
+            "scrollCollapse": true,
+            "paging":false,
+            "ordering": true,
+            "bSortable": true,
+            "bSort": true,
+            "dom": '<"top"f>tir<"bottom"lp><"clear">',
+            "bInfo" : false,
+            "order": [[ 1, "desc" ]],
+            "aoColumnDefs": [ { bSortable: false,aTargets: [ -6 ]  }  ]
+        });
+    }
+    
+    function submitSearch(){
+        var categ = document.getElementById('category').value;
+        var minYear = document.getElementById('minYear').value;
+        var maxYear = document.getElementById('maxYear').value;
+        var make = document.getElementById('make').value;
+        var model = document.getElementById('model').value;
+        var minWeight = document.getElementById('minWeight').value;
+        var maxWeight = document.getElementById('maxWeight').value;
+        var minHour = document.getElementById('minHour').value;
+        var maxHour = document.getElementById('maxHour').value; 
+        var minPrice = document.getElementById('minPrice').value; 
+        var maxPrice = document.getElementById('maxPrice').value;
+        var unitCode = document.getElementById('unitCode').value;
+        var categError = document.getElementById('error-message-unique-id');
+        if( !categ ) {
+            categError.style.display='block';
+            categError.className='slds-text-color_destructive';
+            categError.innerHTML = 'Category is Required!';
+            document.getElementById('categDivId').className = 'slds-has-error';
+            document.getElementById('noRecDivId').style.display='none';
+        } else {
+            document.getElementById('categDivId').className = '';
+            categError.style.display = 'none';
+            submitActionFunction(categ,minYear,maxYear,make,model,minWeight,maxWeight,minHour,maxHour,minPrice,maxPrice,unitCode);
+        }
+    }
+    
+    var addCountAll,totalSelected=0;
+    function selectAll(receivedInputID, select_deSelect ){
+        var inputCheckBox = document.getElementsByTagName("input");
+        addCountAll = 0;
+        for( var i=0; i<inputCheckBox.length; i++ ) {          
+            if( inputCheckBox[i].id.indexOf(receivedInputID) != -1 ) {                                     
+                if( select_deSelect == 'selectAll' && !inputCheckBox[i].checked ) {
+                    inputCheckBox[i].checked = true;
+                    addCountAll++;
+                } else if( select_deSelect == 'deSelectAll' && inputCheckBox[i].checked ) {
+                    inputCheckBox[i].checked = false;
+                    addCountAll--;
+                }
+            }
+        }
+        totalSelected +=addCountAll;
+        if( totalSelected > 0 ) {
+            document.getElementsByClassName('recCount')[0].innerHTML = totalSelected+' Unit(s) selected';
+            document.getElementById('deSelectBtn').disabled=false;
+            document.getElementById('sendBtnId').disabled=false;
+        } else {
+            document.getElementsByClassName('recCount')[0].innerHTML = '';
+            document.getElementById('deSelectBtn').disabled=true;
+            document.getElementById('sendBtnId').disabled=true;
+        }
+    }
+    
+    var addCount;
+    function checkedRecord( data ){
+        addCount = 0;
+        if ( data.checked ) { addCount++; } 
+        else { addCount--; } 
+        totalSelected +=addCount;
+        if( totalSelected > 0 ) {
+            document.getElementsByClassName('recCount')[0].innerHTML = totalSelected+' Unit(s) selected';
+            document.getElementById('deSelectBtn').disabled=false;
+            document.getElementById('sendBtnId').disabled=false;
+        } else {
+            document.getElementsByClassName('recCount')[0].innerHTML = '';
+            document.getElementById('deSelectBtn').disabled=true;
+            document.getElementById('sendBtnId').disabled=true;
+        }
+    }
+    
+    // ---------Next/Previous button onclick logic----------
+    function nextJS() {
+        addCount = 0;
+        addCountAll = 0;
+        if( totalSelected > 0 ) {
+            document.getElementsByClassName('recCount')[0].innerHTML = totalSelected+' Unit(s) selected';
+        } else {
+            document.getElementById('deSelectBtn').disabled=true;
+            document.getElementById('sendBtnId').disabled=true;
+        }
+    }
+    
+    function validateSendEmail(){
+        var sure = confirm("Are you sure to send email?");
+        document.getElementsByClassName('recCount')[0].innerHTML = '';
+        if(sure) {
+            sendEmail();
+        }
+    }
+    
+    </script>
+</apex:page>

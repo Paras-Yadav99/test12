@@ -1,0 +1,52 @@
+<apex:page controller="MonthlyCheckinEmail" >
+
+<apex:form id="theForm">
+<apex:pageBlock title="Zadoon Monthly Checkin Email Tester">
+<apex:commandButton value="Monthly Checkin Emails" action="{!GetRecordPage}" reRender="theForm" id="bor"/>
+
+<apex:variable value="{!0}" var="index" />
+<apex:pageblocktable id="bookrec" rendered="{!display}" value="{!MonthlyCheckinEmail}" var="fetch">
+
+
+    <apex:column headerValue="row #" >
+      <apex:variable value="{!index + 1}" var="index" />
+                {!index}
+    </apex:column>
+
+    <apex:column value="{!fetch.TemplateID}" headerValue="TemplateID"/>
+    
+    <apex:column headerValue="Contact Name">
+      <c:Template_Name TemplateString="{!fetch.References}" />
+    </apex:column>
+    
+    <apex:column headerValue="Contact Name">
+      <c:Contact_Name ContactString="{!fetch.References}" />
+    </apex:column>
+    <apex:column headerValue="Account Name">
+        <c:Account_Name AccountString="{!fetch.References}" />
+    </apex:column>
+    
+    <apex:column headerValue="Account Region">
+        <c:Contact_Region ContactRegionString="{!fetch.References}" />
+    </apex:column>    
+    
+    <apex:column headerValue="Account Type">
+        <c:Contact_Type ContactTypeString="{!fetch.References}" />
+    </apex:column>
+    
+    <apex:column headerValue="Sender Details">
+      <c:OWA_Sender_Details OWASender="{!fetch.References}"/>
+
+    </apex:column>
+    
+    <apex:column value="{!fetch.ReplyTo}" headerValue="Reply-To"/>
+    <apex:column headerValue="HTML Body">
+    <apex:outputLink value="/{!fetch.TemplateID}?recipient_type_id={!fetch.TargetObjectId}">Html Preview</apex:outputLink>
+    </apex:column>
+    
+    
+    </apex:pageblocktable>   
+    </apex:pageBlock>
+
+</apex:form>
+</apex:page>

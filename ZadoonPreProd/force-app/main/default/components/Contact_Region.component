@@ -1,0 +1,7 @@
+<apex:component controller="VFComponentContactRegion" access="global">
+<apex:attribute name="ContactRegionString" description="This is the Contact." type="String" assignTo="{!thisContactRegionString}"/>
+
+    {!ThisContactRegion}
+
+
+</apex:component>

@@ -1,0 +1,27 @@
+<apex:page standardController="Equipment__c" extensions="EquipmentRelatedListBaseMatches" sidebar="true" showHeader="false" >     
+    
+             
+    <apex:pageblock id="BaseMatches"> 
+
+        <apex:pageBlockTable value="{!baseMatches}" var="cont" rendered="{!NOT(ISNULL(baseMatches))}">                 
+
+
+            <apex:column headerValue="Name"><apex:outputLink value="/{!cont.id}" target="_blank">{!cont.Name}</apex:outputLink> </apex:column>               
+
+            <apex:column headerValue="Base" value="{!cont.Base_New__c}"/> 
+
+            <apex:column headerValue="Number of Active ZIDs" value="{!cont.Number_of_Active_ZIDs__c}"></apex:column> 
+
+            <apex:column headerValue="Number of Iron Demands" value="{!cont.Number_of_Iron_Demands__c}"/>              
+
+        </apex:pageBlockTable>    
+          
+
+        <apex:outputLabel value="No records to display" rendered="{!(ISNULL(baseMatches))}" styleClass="noRowsHeader"></apex:outputLabel> 
+
+
+    </apex:pageblock> 
+    
+
+
+</apex:page>

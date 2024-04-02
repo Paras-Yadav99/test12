@@ -1,0 +1,28 @@
+<template>
+	
+		<lightning-card title="Iron Demand(S)" icon-name="standard:account">
+	<template if:true={showSpinner}>
+		<lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+	</template>
+	<template if:true={showData}>
+
+		<div
+			class="slds-box slds-theme_default slds-text-align_center slds-scrollable_x slds-action-overflow--touch__container">
+			<b style="text-align: left;">Total Iron Demand records : {totalRecords}</b>
+			<div style="overflow-x: auto;">
+
+				<c-custom-datatable columns={columns} records={lstIronDemandrecords} is-hide-check-box={isHideCheckBox}
+					is-show-row-number={isShowRowNumber} number-of-records-per-pages={numberOfRecordsPerPage}
+					is-show-selected={isShowSelected}>
+				</c-custom-datatable>
+			</div>
+		</div>
+	</template>
+	<template if:false={showData}>
+		<div class="slds-p-around--medium slds-border--top" style="text-align: center; color: red;">
+			<b>{errorMessage}</b>
+		</div>
+	</template>
+	
+		</lightning-card>
+</template>

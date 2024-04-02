@@ -1,0 +1,81 @@
+.customCombobox label.slds-form-element__label, .textArea label.slds-form-element__label{
+    display: none !important; 
+}
+
+.customCombobox lightning-base-combobox-item{
+	padding-bottom: 0.1rem !important;
+    padding-top: 0.1rem !important;
+	font-weight: normal;
+    display: block;
+    white-space: nowrap;
+    min-height: 1.2em;
+    font-size: 12px;
+	--lwc-colorBackgroundRowHover:rgb(27, 150, 255);
+	margin: 0px !important;
+}
+
+.customCombobox .slds-dropdown_fluid {
+	min-width: max-content;
+
+}
+
+.customCombobox lightning-base-combobox-item lightning-primitive-icon {
+    display : none !important;
+	margin: 0px !important;
+
+}
+
+.customCombobox .slds-listbox__option:hover {
+    background: rgb(27, 150, 255);
+	color: rgb(243, 243, 243);
+
+}
+.customCombobox .slds-listbox__option.slds-has-focus  {
+    background: rgb(27, 150, 255);
+	color: rgb(243, 243, 243);
+}
+
+.customCombobox .slds-listbox_vertical .slds-listbox__option_plain{
+	padding-left :unset !important;
+}
+.customCombobox .slds-listbox__option-icon{
+    width: unset;
+}
+
+.cardStyleHeader .slds-card__header{
+	background: #F3F3F3;
+	padding: 6px;
+	margin: 0px !important;
+	margin-bottom: -12px !important;
+    border-bottom-color: #ccc5cc;
+    border-bottom-style: inset;
+    border-block-start-width: 0.5px;
+    border-block-end-width: 1px;
+}
+.cardStyleHeaderText .slds-media_center{
+	margin: 12px;
+}
+
+.cardStyle .slds-card{
+	border-color: #ccc5cc !important;
+    border-block-start-width: 0.5px;
+    border-block-end-width: 1px;
+   /* border: groove !important;*/
+   border-top-width: 1.5px !important;
+    border-right-width: 1.5px !important;
+    border-bottom-width: 1.5px !important;
+    border-left-width: 1.5px !important;
+    border-top-style: groove !important;
+    border-right-style: groove !important;
+    border-bottom-style: groove !important;
+    border-left-style: groove !important;
+    border-top-color: 1.5px !important;
+    border-right-color: 1.5px !important;
+    border-bottom-color: 1.5px !important;
+    border-left-color: 1.5px !important;
+    border-image-source: 1.5px  !important;
+    border-image-slice: 1.5px  !important;
+    border-image-width: 1.5px  !important;
+    border-image-outset: 1.5px  !important;
+    border-image-repeat: 1.5px  !important;
+}

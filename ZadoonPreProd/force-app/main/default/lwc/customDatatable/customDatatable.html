@@ -1,0 +1,58 @@
+<template>
+	<div style="  height: 371px;" class="">
+		<div>
+			<div class="slds-grid slds-col">
+				<!--Team Lead and Team Members Options-->
+				<div class="slds-grid" style=" width: 100% !important;">
+					<div class="slds-size--1-of-8 " style="margin-top: 15px;">
+						<p><b>Search Key:</b></p>
+					</div>
+					<div class="slds-size--7-of-8 " style="margin-top: -10px; margin-bottom: 10px; ">
+						<lightning-input type="text" label="" class="search-input" onchange={getData1}>
+						</lightning-input>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div style="  height: 319px;" class="slds-scrollable">
+		<lightning-datatable key-field="Id" data={listOfRecords} columns={columns}
+			show-row-number-column={isShowRowNumber} hide-checkbox-column={isHideCheckBox}
+			selected-rows={lstSelectedRows2} onrowselection={handleRowAction}>
+		</lightning-datatable>
+        </div>
+	</div>
+
+	<template if:true={listOfRecords}>
+		<lightning-modal-footer>
+			<lightning-layout>
+				<template if:false={isShowSelected}>
+                 <div class="slds-text-align_left slds-align--absolute-center">Selected: {numberOfSelectedRows}</div>
+				</template>
+				<lightning-layout-item class="slds-align--absolute-center" size="10">
+                   
+                    
+					<div style="width: 485px; display: flex;">
+						<lightning-button class="slds-button slds-m-horizontal--xx-large" variant="base"
+							label="Previous" icon-name="utility:chevronleft" onclick={handlePreviousClick}
+							disabled={hidePreviousButton}>
+						</lightning-button>
+						<lightning-combobox name="currentpage" variant="label-hidden" options={totalPageOptions}
+							onchange={handleChange} class="customCombobox slds-align-bottom slds-m-horizontal--xx-large"
+							dropdown-alignment="bottom-left" value={currentPage}>
+						</lightning-combobox>
+						<lightning-button class="slds-button slds-m-horizontal--xx-large" variant="base" label="Next"
+							icon-name="utility:chevronright" icon-position="right" onclick={handleNextClick}
+							disabled={hideNextButton}>
+						</lightning-button>
+					</div>
+				</lightning-layout-item>
+				<lightning-layout-item size="1">
+					<lightning-combobox name="pagesizeoption" variant="label-hidden" value={numberOfRecordsPerPage}
+						options={differentPageSizeOption} onchange={handleChange} class="customCombobox"
+						dropdown-alignment="bottom-left">
+					</lightning-combobox>
+				</lightning-layout-item>
+			</lightning-layout>
+		</lightning-modal-footer>
+	</template>
+</template>
